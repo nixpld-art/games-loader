@@ -1070,7 +1070,8 @@ var S={
   cloak:'docs',
   tabtitle:'',
   panickey:'Backquote',
-  fontsize:'medium'
+  fontsize:'medium',
+  sessionTime:0
 };
 
 var CLOAKS=[
@@ -1129,16 +1130,11 @@ var cloakList=$('cloak-list'),bgGrid=$('bg-grid');
     ADMIN_COMBO_KEYS=[];
   }catch(e){console.warn('Prefs load err',e);}
 
-  // Check maintenance
+  // Check maintenance — show overlay but continue init so games load behind it
   var maintMsg=localStorage.getItem('gv_maint');
   if(maintMsg){
     maintOverlay.classList.add('on');
     $('maint-msg').textContent=maintMsg;
-    if(ADMIN_UNLOCKED){
-      maintOverlay.classList.remove('on');
-    }else{
-      return;
-    }
   }
 
   if(S.name&&S.name!=='Player'){
