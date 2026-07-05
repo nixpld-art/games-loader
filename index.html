@@ -2403,9 +2403,21 @@ $('adm-factory-reset').addEventListener('click',function(){
 $('adm-save-pw').addEventListener('click',function(){
   var newPw=$('adm-new-pw').value;
   if(!newPw||newPw.length<4){showToast('Password too short');return;}
-  localStorage.setItem(ADMIN_PW_KEY,newPw);
-  $('adm-new-pw').value='';
-  admLog('Admin password changed');showToast('Password changed');
+  var curPw=localStorage.getItem(ADMIN_PW_KEY)||DEFAULT_ADMIN_PW;
+  var xhr=new XMLHttpRequest();
+  xhr.open('POST','/api/admin/change-pw?pw='+encodeURIComponent(newPw),true);
+  xhr.setRequestHeader('x-admin-pw',curPw);
+  xhr.onload=function(){
+    if(xhr.status===200){
+      localStorage.setItem(ADMIN_PW_KEY,newPw);
+      $('adm-new-pw').value='';
+      admLog('Admin password changed');showToast('Password changed (server & client)');
+    }else{
+      showToast('Server rejected password change');
+    }
+  };
+  xhr.onerror=function(){showToast('Network error changing password');};
+  xhr.send();
 });
 
 $('adm-global-density').addEventListener('change',function(){

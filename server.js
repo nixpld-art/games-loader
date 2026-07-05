@@ -535,19 +535,28 @@ function mapGame(g) {
 
 // Server-side admin auth
 var ADMIN_PW_HASH = process.env.ADMIN_PW_HASH || crypto.createHash('sha256').update('roundMin+2').digest('hex');
+var currentAdminPwHash = ADMIN_PW_HASH;
 
 function requireAdmin(req, res, next) {
   var pw = req.headers['x-admin-pw'] || req.query.pw || '';
   var hash = crypto.createHash('sha256').update(pw).digest('hex');
-  if (hash !== ADMIN_PW_HASH) return res.status(403).json({ error: 'Unauthorized' });
+  if (hash !== currentAdminPwHash) return res.status(403).json({ error: 'Unauthorized' });
   next();
 }
 
-// Admin: clear games cache (requires x-admin-pw header or ?pw= query param)
+// Admin: clear games cache
 app.post('/api/admin/clear-cache', requireAdmin, function(req, res) {
   gamesCache = null;
   gamesCacheAt = 0;
   res.json({ ok: true, message: 'Cache cleared' });
+});
+
+// Admin: change password (volatile, resets on restart)
+app.post('/api/admin/change-pw', requireAdmin, function(req, res) {
+  var newPw = req.body && req.body.pw ? req.body.pw : (req.query.pw || '');
+  if (!newPw || newPw.length < 4) return res.status(400).json({ error: 'Password must be at least 4 characters' });
+  currentAdminPwHash = crypto.createHash('sha256').update(newPw).digest('hex');
+  res.json({ ok: true, message: 'Password changed (resets on server restart)' });
 });
 
 // Health check
