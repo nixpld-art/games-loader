@@ -134,5 +134,21 @@
     "thumbnail": "/api/thumb/Tunnel%20Rush",
     "url": "/games/tunnel-rush/index.html",
     "source": ""
+  },
+  {
+    "id": "slope",
+    "title": "Slope",
+    "tags": ["Endless","3D"],
+    "thumbnail": "/api/thumb/Slope",
+    "url": "/games/slope/index.html",
+    "source": ""
+  },
+  {
+    "id": "tetris",
+    "title": "Tetris",
+    "tags": ["Puzzle","Classic"],
+    "thumbnail": "/api/thumb/Tetris",
+    "url": "/games/tetris/index.html",
+    "source": ""
   }
 ]

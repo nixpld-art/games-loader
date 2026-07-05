@@ -210,7 +210,7 @@ app.get('/api/raw', async function(req, res) {
     body = body.replace(/<meta[^>]*http-equiv=["']X-Frame-Options["'][^>]*>/gi, '');
 
     // Strip any source URL references from response body and route them through proxy
-    body = body.replace(/(https?:\/\/(?:hypackellite\.github\.io|cdn\.jsdelivr\.net\/gh\/GoatTech-42|nebula-cdn)[^\s"'>]*)/gi, '/api/proxy$1');
+    body = body.replace(/(https?:\/\/(?:hypackellite\.github\.io|cdn\.jsdelivr\.net|raw\.githubusercontent\.com)[^\s"'>]*)/gi, '/api/proxy/$1');
 
     res.set('Content-Type', 'text/html; charset=utf-8');
     res.set('Access-Control-Allow-Origin', '*');
@@ -269,7 +269,7 @@ async function getHypackelFileList() {
 async function fetchHypackel() {
   try {
     var [indexRes, validGames] = await Promise.all([
-      axios.get('https://hypackellite.github.io/index.json', { timeout: 10000 }),
+      axios.get('https://raw.githubusercontent.com/hypackellite/hypackellite.github.io/main/index.json', { timeout: 10000 }),
       getHypackelFileList()
     ]);
     var hasDirCheck = Object.keys(validGames).length > 0;
@@ -294,7 +294,7 @@ async function fetchHypackel() {
           title: gTitle,
           developer: '',
           thumbnail: g.imageSrc ? 'https://hypackellite.github.io' + g.imageSrc : '/api/thumb/' + encodeURIComponent(gTitle),
-          url: '/api/raw?url=' + encodeURIComponent('https://hypackellite.github.io' + (g.url || ('/files/' + dir + '/index.html'))),
+          url: '/api/raw?url=' + encodeURIComponent('https://raw.githubusercontent.com/hypackellite/hypackellite.github.io/main' + (g.url || ('/files/' + dir + '/index.html'))),
           tags: (g.tags ? g.tags.split(',').map(function(t){ return t.trim(); }).filter(Boolean) : []),
           source: 'hypackel'
         });
@@ -325,7 +325,7 @@ async function fetchHypackel() {
         title: gTitle,
         developer: '',
         thumbnail: g.imageSrc ? 'https://hypackellite.github.io' + g.imageSrc : '/api/thumb/' + encodeURIComponent(gTitle),
-        url: '/api/raw?url=' + encodeURIComponent('https://hypackellite.github.io/files/' + dir + '/index.html'),
+        url: '/api/raw?url=' + encodeURIComponent('https://raw.githubusercontent.com/hypackellite/hypackellite.github.io/main/files/' + dir + '/index.html'),
         tags: (g.tags ? g.tags.split(',').map(function(t){ return t.trim(); }).filter(Boolean) : []),
         source: 'hypackel'
       });
@@ -406,13 +406,13 @@ var TITLE_FIX = {
 
 async function fetchNebula() {
   try {
-    var catalog = await axios.get('https://cdn.jsdelivr.net/gh/GoatTech-42/NEBULA-CDN@main/games.json', { timeout: 20000 });
+    var catalog = await axios.get('https://raw.githubusercontent.com/GoatTech-42/NEBULA-CDN/main/games.json', { timeout: 20000 });
     var existingFiles = await getNebulaFileList();
     var hasFileCheck = Object.keys(existingFiles).length > 0;
     if (!hasFileCheck) {
       console.log('NEBULA file list unavailable, including all catalog games (blocklist still applies)');
     }
-    var baseUrl = 'https://cdn.jsdelivr.net/gh/GoatTech-42/NEBULA-CDN@main';
+    var baseUrl = 'https://raw.githubusercontent.com/GoatTech-42/NEBULA-CDN/main';
     var games = [];
     var usedIds = {};
     (catalog.data.games || []).forEach(function(g) {
