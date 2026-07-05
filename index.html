@@ -2147,11 +2147,12 @@ function buildUsersTab(){
   users.forEach(function(u){
     var badge=u.status==='banned'?'<span class="badge-banned">Banned</span>':u.status==='paused'?'<span class="badge-paused">Paused</span>':'<span class="badge-active">Active</span>';
     var actions='';
-    if(u.status!=='banned'){actions+='<button class="adm-btn red" onclick="admBanUser(\''+esc(u.name)+'\')">Ban</button> ';}
-    else{actions+='<button class="adm-btn green" onclick="admUnbanUser(\''+esc(u.name)+'\')">Unban</button> ';}
-    if(u.status!=='paused'&&u.status!=='banned'){actions+='<button class="adm-btn yellow" onclick="admPauseUser(\''+esc(u.name)+'\')">Pause</button> ';}
-    else if(u.status==='paused'){actions+='<button class="adm-btn green" onclick="admUnpauseUser(\''+esc(u.name)+'\')">Resume</button> ';}
-    actions+='<button class="adm-btn red" onclick="admClearUser(\''+esc(u.name)+'\')">Clear</button>';
+    var uname=JSON.stringify(u.name);
+    if(u.status!=='banned'){actions+='<button class="adm-btn red" onclick="admBanUser('+uname+')">Ban</button> ';}
+    else{actions+='<button class="adm-btn green" onclick="admUnbanUser('+uname+')">Unban</button> ';}
+    if(u.status!=='paused'&&u.status!=='banned'){actions+='<button class="adm-btn yellow" onclick="admPauseUser('+uname+')">Pause</button> ';}
+    else if(u.status==='paused'){actions+='<button class="adm-btn green" onclick="admUnpauseUser('+uname+')">Resume</button> ';}
+    actions+='<button class="adm-btn red" onclick="admClearUser('+uname+')">Clear</button>';
     h+='<tr><td>'+esc(u.name)+'</td><td>'+badge+'</td><td>'+u.plays+'</td><td>'+u.last+'</td><td>'+actions+'</td></tr>';
   });
   tbody.innerHTML=h||'<tr><td colspan="5" style="color:#555;text-align:center">No users yet</td></tr>';
@@ -2161,7 +2162,7 @@ function buildUsersTab(){
   var bh='';
   Object.keys(BANNED_USERS).forEach(function(name){
     bh+='<tr><td>'+esc(name)+'</td><td>'+esc(BANNED_USERS[name]||'No reason')+'</td>'
-      +'<td><button class="adm-btn green" onclick="admUnbanUser(\''+esc(name)+'\')">Unban</button></td></tr>';
+      +'<td><button class="adm-btn green" onclick="admUnbanUser('+JSON.stringify(name)+')">Unban</button></td></tr>';
   });
   bannedTbody.innerHTML=bh||'<tr><td colspan="3" style="color:#555;text-align:center">No banned users</td></tr>';
 }

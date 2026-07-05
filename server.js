@@ -625,6 +625,11 @@ app.get('/api/download', async function(req, res) {
   }
 });
 
+// SPA fallback: serve index.html for any unmatched route
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(PORT, function() {
   console.log('GameVault server running at http://localhost:' + PORT);
 });
