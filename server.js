@@ -19,16 +19,13 @@ let hypackelFileListAt = 0;
 
 app.use(express.json());
 
-// Serve static files with permissive headers for game iframes
-app.use(function(req, res, next) {
-  res.removeHeader('X-Frame-Options');
-  res.removeHeader('Content-Security-Policy');
-  next();
-});
-app.use(express.static(__dirname));
-
-// Serve game directories explicitly
+// Serve only specific directories as static files (NOT entire __dirname)
 app.use('/games', express.static(path.join(__dirname, 'games')));
+
+// Serve index.html for root
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 var PALETTE = [
   '#e94560','#0f3460','#1a8fe0','#e9a820','#20c997','#6f42c1',
@@ -219,7 +216,8 @@ app.get('/api/raw', async function(req, res) {
     res.send(body);
   } catch (err) {
     console.error('Proxy error for', targetUrl, ':', err.message);
-    var gameTitle = targetUrl.split('/').pop().replace(/\.html$/, '').replace(/[-_]/g, ' ');
+    function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+    var gameTitle = escHtml(targetUrl.split('/').pop().replace(/\.html$/, '').replace(/[-_]/g, ' '));
     res.status(502).type('text/html').send(
       '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' +
       'body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#1a1a2e;color:#eee;text-align:center}' +
@@ -227,7 +225,7 @@ app.get('/api/raw', async function(req, res) {
       'h2{color:#e94560;margin-top:0}.hint{color:#888;font-size:0.85rem}</style></head><body>' +
       '<div class="card"><h2>Game Unavailable</h2>' +
       '<p>Could not load <strong>' + gameTitle + '</strong></p>' +
-      '<p class="hint">' + err.message.replace(/</g, '&lt;').replace(/"/g, '&quot;') + '</p>' +
+      '<p class="hint">' + escHtml(err.message) + '</p>' +
       '<p class="hint">The game may have been removed or requires external resources that are blocked.</p></div></body></html>'
     );
   }
@@ -535,8 +533,18 @@ function mapGame(g) {
   };
 }
 
-// Admin: clear games cache
-app.post('/api/admin/clear-cache', function(req, res) {
+// Server-side admin auth
+var ADMIN_PW_HASH = process.env.ADMIN_PW_HASH || crypto.createHash('sha256').update('roundMin+2').digest('hex');
+
+function requireAdmin(req, res, next) {
+  var pw = req.headers['x-admin-pw'] || req.query.pw || '';
+  var hash = crypto.createHash('sha256').update(pw).digest('hex');
+  if (hash !== ADMIN_PW_HASH) return res.status(403).json({ error: 'Unauthorized' });
+  next();
+}
+
+// Admin: clear games cache (requires x-admin-pw header or ?pw= query param)
+app.post('/api/admin/clear-cache', requireAdmin, function(req, res) {
   gamesCache = null;
   gamesCacheAt = 0;
   res.json({ ok: true, message: 'Cache cleared' });
