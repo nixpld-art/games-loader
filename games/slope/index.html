@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Slope</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0a2e;color:#eee;font-family:'Segoe UI',sans-serif;touch-action:none;user-select:none}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center}
+#header{text-align:center;padding:6px;width:100%}
+#header h1{font-size:clamp(20px,5vw,28px);background:linear-gradient(135deg,#00f0ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900}
+#game-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;max-width:500px}
+#hud{display:flex;gap:10px;justify-content:center;width:100%}
+.hud-box{background:rgba(0,0,0,0.5);border:1px solid rgba(0,240,255,0.25);border-radius:8px;padding:4px 14px;text-align:center}
+.hud-box .label{font-size:9px;color:#00f0ff;text-transform:uppercase}
+.hud-box .val{font-size:18px;font-weight:700}
+#canvas-wrap{position:relative;width:100%;max-width:380px;aspect-ratio:3/4;display:flex;justify-content:center}
+canvas#c{width:100%;height:100%;border:2px solid rgba(0,240,255,0.2);border-radius:10px;display:block}
+#start-screen,#game-over-screen{position:absolute;inset:0;border-radius:10px;background:rgba(0,0,0,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10}
+#game-over-screen{display:none}
+#game-over-screen.show{display:flex}
+#start-screen h2,#game-over-screen h2{font-size:28px;margin-bottom:8px;background:linear-gradient(135deg,#00f0ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#start-screen p{color:#aaa;font-size:13px;margin-bottom:16px}
+#game-over-screen .final-score{font-size:32px;font-weight:900;text-shadow:0 0 20px rgba(0,240,255,0.5)}
+#game-over-screen .final-label{font-size:11px;color:#00f0ff;text-transform:uppercase;letter-spacing:2px}
+.btn{background:linear-gradient(135deg,#00f0ff,#0066ff);border:none;color:#fff;padding:10px 28px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px}
+.btn:active{transform:scale(.95)}
+#controls-hint{color:#555;font-size:11px;text-align:center}
+</style>
+</head>
+<body>
+<div id="header"><h1>Slope</h1></div>
+<div id="game-wrap">
+<div id="hud">
+<div class="hud-box"><div class="label">Score</div><div class="val" id="score-val">0</div></div>
+<div class="hud-box"><div class="label">Best</div><div class="val" id="best-val">0</div></div>
+</div>
+<div id="canvas-wrap">
+<canvas id="c"></canvas>
+<div id="start-screen"><h2>Slope</h2><p>Use A/D or arrow keys to steer the ball</p><button class="btn" id="btn-start">Play</button></div>
+<div id="game-over-screen"><h2>Game Over</h2><div class="final-label">Score</div><div class="final-score" id="final-score">0</div><div class="final-label" style="margin-top:12px">Best</div><div class="final-score" id="final-best">0</div><button class="btn" id="btn-restart">Play Again</button></div>
+</div>
+<div id="controls-hint">A/D or arrow keys to steer</div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

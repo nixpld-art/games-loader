@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Tetris</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;color:#eee;touch-action:none;user-select:none;-webkit-tap-highlight-color:transparent}
+body{background:#0a0a1a;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#header{text-align:center;padding:10px;width:100%}
+#header h1{font-size:clamp(20px,5vw,30px);background:linear-gradient(135deg,#00f0ff,#a855f7,#ff006e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:900;letter-spacing:2px}
+#game-wrap{display:flex;flex-direction:column;align-items:center;width:100%;max-width:520px;padding:0 8px;gap:8px}
+#hud{display:flex;gap:10px;width:100%;justify-content:center}
+.hud-box{background:rgba(0,0,0,0.5);border:1px solid rgba(0,240,255,0.3);border-radius:10px;padding:6px 14px;text-align:center;flex:1;max-width:120px;box-shadow:0 0 12px rgba(0,240,255,0.1)}
+.hud-box .label{font-size:9px;color:#00f0ff;text-transform:uppercase;letter-spacing:1px}
+.hud-box .val{font-size:clamp(16px,4vw,22px);font-weight:700;color:#fff;text-shadow:0 0 8px rgba(0,240,255,0.5)}
+#canvas-container{position:relative;width:100%;max-width:380px;aspect-ratio:10/19;display:flex;justify-content:center}
+canvas#main{width:100%;height:100%;border:2px solid rgba(0,240,255,0.25);border-radius:10px;box-shadow:0 0 30px rgba(0,240,255,0.12),inset 0 0 20px rgba(0,240,255,0.04);display:block}
+#overlay{position:absolute;inset:0;border-radius:10px;background:rgba(0,0,0,0.88);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10}
+#overlay.hidden{display:none}
+#overlay h2{font-size:clamp(22px,5vw,30px);background:linear-gradient(135deg,#00f0ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+#overlay p{color:#aaa;font-size:14px;margin-bottom:16px;text-align:center;padding:0 20px}
+#overlay .final-score{font-size:36px;font-weight:900;color:#fff;text-shadow:0 0 20px rgba(0,240,255,0.6);margin-bottom:6px}
+#overlay .final-label{font-size:11px;color:#00f0ff;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px}
+.btn-group{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn{background:linear-gradient(135deg,#00f0ff,#0066ff);border:none;color:#fff;padding:10px 28px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 0 20px rgba(0,240,255,0.3);transition:transform .1s,box-shadow .1s;text-align:center}
+.btn:active{transform:scale(.95);box-shadow:0 0 10px rgba(0,240,255,0.3)}
+.btn.secondary{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);box-shadow:none}
+#controls-hint{color:#555;font-size:11px;text-align:center;margin-top:4px}
+#mobile-dpad{position:fixed;bottom:max(8px,env(safe-area-inset-bottom,8px));left:50%;transform:translateX(-50%);display:none;grid-template-columns:repeat(3,52px);grid-template-rows:52px 52px 52px;gap:4px;z-index:50}
+@media(max-width:600px){#mobile-dpad{display:grid}}
+#mobile-dpad button{background:rgba(0,240,255,0.15);border:2px solid rgba(0,240,255,0.35);color:#00f0ff;font-size:22px;border-radius:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;user-select:none}
+#mobile-dpad button:active{background:rgba(0,240,255,0.4)}
+</style>
+</head>
+<body>
+<div id="header"><h1>Tetris</h1></div>
+<div id="game-wrap">
+ <div id="hud">
+ <div class="hud-box"><div class="label">Score</div><div class="val" id="score-disp">0</div></div>
+ <div class="hud-box"><div class="label">Lines</div><div class="val" id="lines-disp">0</div></div>
+ <div class="hud-box"><div class="label">Level</div><div class="val" id="level-disp">1</div></div>
+ </div>
+ <div id="canvas-container">
+ <canvas id="main"></canvas>
+ <div id="overlay">
+ <h2>TETRIS</h2>
+ <p>Stack blocks. Clear lines. Beat your high score!</p>
+ <div class="btn-group">
+ <button class="btn" id="start-btn"> PLAY</button>
+ </div>
+ </div>
+ </div>
+ <div id="controls-hint">Arrow keys to move | ^ rotate | Space hard drop | P pause</div>
+</div>
+<div id="mobile-dpad">
+ <div></div>
+ <button id="btn-up">^</button>
+ <div></div>
+ <button id="btn-left"><</button>
+ <button id="btn-down">v</button>
+ <button id="btn-right">></button>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

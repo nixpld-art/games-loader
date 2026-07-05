@@ -1,0 +1,21 @@
+[build]
+  publish = "."
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.js]
+  minify = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "no-referrer-when-downgrade"

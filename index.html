@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" id="metaDesc" content="EduCore - Comprehensive educational resource portal for K-12 students.">
+<meta name="keywords" id="metaKeywords" content="educational resources, student portal, mathematics practice">
+<title>Google Docs</title>
+<link rel="icon" id="favicon" href="https://ssl.gstatic.com/images/branding/product/1x/docs_2020q4_32dp.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#39FF14;--accent2:#06B6D4;--accent-rgb:57,255,20;
+  --bg:#070708;--surface:#0a0a0c;--border:#151518;--border2:#1a1a1e;
+  --text:#e2e2e8;--muted:#64748b;--dim:#444;
+  --card-radius:10px;--card-glow:rgba(57,255,20,0.35);
+  --nav-h:52px;--grid-min:140px;
+  --font-card:11px;
+}
+.or{
+  --accent:#FF5A00;--accent2:#FF8800;--accent-rgb:255,90,0;
+  --card-glow:rgba(255,90,0,0.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background 0.5s}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#1f1f23;border-radius:4px}
+::selection{background:rgba(var(--accent-rgb),0.25)}
+img{display:block}
+
+/* ── BACKGROUNDS ── */
+#bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;transition:opacity 0.7s}
+#bg-layer img{width:100%;height:100%;object-fit:cover;opacity:0.18}
+
+/* CSS animated backgrounds */
+body.bg-void #bg-layer{background:radial-gradient(ellipse at 20% 50%,#0a0f1a,#070708 70%)}
+body.bg-matrix #bg-layer{background:#070708}
+body.bg-gold #bg-layer{background:radial-gradient(ellipse at 60% 40%,#1a1200,#070708)}
+body.bg-ocean #bg-layer{background:radial-gradient(ellipse at 50% 80%,#001a2e,#070708)}
+body.bg-ember #bg-layer{background:radial-gradient(ellipse at 30% 70%,#1a0800,#070708)}
+
+/* ── MATRIX CANVAS ── */
+#matrix-canvas{position:fixed;inset:0;z-index:0;opacity:0;pointer-events:none;transition:opacity 1s}
+body.bg-matrix #matrix-canvas{opacity:0.25}
+
+/* ── ONBOARDING ── */
+#ob{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0a0a0f,#070708);transition:opacity 0.8s}
+#ob.fd{opacity:0;pointer-events:none}
+#ob.hd{display:none}
+.st{display:none;flex-direction:column;align-items:center;gap:16px;max-width:440px;width:92%;padding:36px 28px;text-align:center;background:rgba(17,17,19,0.7);border:1px solid #1a1a1e;border-radius:20px;backdrop-filter:blur(20px)}
+.st.on{display:flex}
+.st .ico{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:4px}
+.st h1{font-size:22px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.st p{color:#64748b;font-size:13px;line-height:1.6;max-width:320px;-webkit-text-fill-color:#64748b}
+#ni{width:100%;padding:13px 16px;border-radius:12px;background:#0a0a0c;border:1px solid #222;color:#fff;font-size:15px;text-align:center;font-family:inherit;transition:0.2s;outline:none}
+#ni:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.1)}
+.btn{padding:12px 32px;border-radius:12px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
+.btn-p:hover{box-shadow:0 0 24px rgba(var(--accent-rgb),0.3);transform:scale(1.02)}
+.btn-p:disabled{opacity:0.3;cursor:default;transform:none!important;box-shadow:none!important}
+.btn-s{background:#111113;color:#94a3b8;border:1px solid #222;padding:7px 14px;border-radius:9px;font-size:11px;cursor:pointer;transition:0.2s;font-family:inherit}
+.btn-s:hover{background:#1a1a1e;color:#fff}
+.rw{display:flex;align-items:center;justify-content:space-between;width:100%;padding:11px 13px;background:#0a0a0c;border-radius:11px;border:1px solid #1a1a1e}
+.rw .lb{font-size:12px;font-weight:500;text-align:left;flex:1}
+.rw .sb{font-size:10px;color:#555;font-weight:400;display:block;margin-top:1px}
+.tg{position:relative;width:40px;height:21px;background:#222;border-radius:11px;cursor:pointer;transition:0.2s;flex-shrink:0}
+.tg.on{background:var(--accent)}
+.tg .k{position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;transition:0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3)}
+.tg.on .k{left:21px}
+.bgr{display:flex;background:#0a0a0c;border-radius:9px;border:1px solid #1a1a1e;overflow:hidden;flex-shrink:0}
+.bgr button{padding:6px 11px;font-size:11px;font-weight:500;border:none;cursor:pointer;transition:0.2s;font-family:inherit;background:transparent;color:#64748b}
+.bgr button.on{background:var(--accent);color:#000}
+
+/* ── APP SHELL ── */
+#ap{position:relative;z-index:1;display:none;flex-direction:column;min-height:100vh}
+#ap.on{display:flex}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(7,7,8,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);height:var(--nav-h)}
+.logo{font-size:12px;font-weight:800;letter-spacing:2px;white-space:nowrap;flex-shrink:0}
+.logo em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.search-wrap{flex:1;position:relative;max-width:300px}
+.search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:#444}
+.search-wrap input{width:100%;padding:6px 9px 6px 28px;border-radius:8px;background:#0a0a0c;border:1px solid var(--border2);color:#fff;font-size:12px;font-family:inherit;transition:0.2s;outline:none}
+.search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(var(--accent-rgb),0.08)}
+.search-wrap input::placeholder{color:#444}
+.icon-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:#555;cursor:pointer;transition:0.2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon-btn:hover{background:#111;color:#fff;border-color:#333}
+.icon-btn.active{background:rgba(var(--accent-rgb),0.12);border-color:var(--accent);color:var(--accent)}
+#gc-badge{font-size:10px;color:#555;background:var(--surface);padding:3px 7px;border-radius:20px;border:1px solid var(--border2);white-space:nowrap;flex-shrink:0}
+
+/* ── WELCOME ── */
+#wh{text-align:center;padding:28px 20px 16px;position:relative}
+#wh .av{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;margin:0 auto 10px;color:#000;position:relative;cursor:pointer}
+#wh .av .av-ed{position:absolute;bottom:-3px;right:-3px;width:16px;height:16px;border-radius:50%;background:#0a0a0c;border:2px solid #070708;display:flex;align-items:center;justify-content:center;opacity:0;transition:0.2s}
+#wh:hover .av .av-ed{opacity:1}
+#wh .av .av-ed svg{width:8px;height:8px;color:var(--accent)}
+#wh h1{font-size:clamp(18px,3vw,24px);font-weight:800;letter-spacing:-0.3px;display:flex;align-items:center;justify-content:center;gap:8px}
+#wh h1 .nm{background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#wh p{color:#555;font-size:11px;margin-top:3px}
+#motd-bar{display:none;background:rgba(var(--accent-rgb),0.08);border:1px solid rgba(var(--accent-rgb),0.2);border-radius:8px;padding:6px 12px;margin:0 16px 8px;font-size:11px;color:var(--accent);text-align:center}
+#motd-bar.on{display:block}
+
+/* ── FILTER BAR ── */
+#fb-wrap{display:flex;flex-wrap:wrap;gap:4px;padding:0 16px;margin-bottom:10px}
+.filt{padding:3px 10px;border-radius:999px;border:1px solid var(--border2);background:transparent;color:#444;font-size:11px;cursor:pointer;transition:0.2s;font-family:inherit;white-space:nowrap}
+.filt:hover{background:var(--surface);color:#94a3b8}
+.filt.on{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+.filt .fc{opacity:0.4;margin-left:2px}
+
+/* ── GRID ── */
+#gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--grid-min),1fr));gap:8px;padding:0 16px 40px}
+
+/* grid density modes */
+body.density-compact{--grid-min:110px}
+body.density-cinematic{--grid-min:140px}
+body.density-xl{--grid-min:200px}
+
+/* ── CARD ── */
+.gc{position:relative;aspect-ratio:3/4;border-radius:var(--card-radius);overflow:hidden;background:var(--surface);border:1px solid var(--border2);cursor:pointer;transition:transform 0.18s ease,box-shadow 0.18s ease,border-color 0.18s ease;display:flex;flex-direction:column}
+.gc:hover{transform:translateY(-3px);box-shadow:0 0 0 1.5px var(--accent),0 8px 30px rgba(var(--accent-rgb),0.15);border-color:var(--accent)}
+.gc .thumb{width:100%;flex:1;min-height:0;overflow:hidden;position:relative;background:var(--surface)}
+.gc .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s ease}
+.gc:hover .thumb img{transform:scale(1.05)}
+.gc .thumb .fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;background:inherit}
+.gc .thumb .fallback .f-ico{font-size:clamp(20px,4vw,32px);line-height:1}
+.gc .thumb .fallback .f-txt{padding:0 6px;font-size:10px;font-weight:700;color:#fff;text-align:center;line-height:1.3;word-break:break-word;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;max-height:3.9em;text-shadow:0 1px 4px rgba(0,0,0,0.8)}
+.gc .info{padding:5px 7px;flex-shrink:0}
+.gc .info h3{font-size:var(--font-card);font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc .info .cat{font-size:9px;color:#444;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc .info .cat em{font-style:normal;color:var(--accent)}
+/* play count badge */
+.gc .play-badge{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.7);font-size:8px;padding:2px 5px;border-radius:4px;backdrop-filter:blur(4px);display:none}
+.gc.show-plays .play-badge{display:block}
+/* favorite */
+.gc .fav-btn{position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.6);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;opacity:0;transition:opacity 0.2s;backdrop-filter:blur(4px)}
+.gc:hover .fav-btn,.gc.fav .fav-btn{opacity:1}
+.gc.fav .fav-btn{background:rgba(var(--accent-rgb),0.3);color:var(--accent)}
+/* disabled overlay */
+.gc.disabled-game::after{content:'Unavailable';position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;color:#ef4444;font-size:10px;font-weight:600;pointer-events:none}
+/* no-anim */
+body.no-anim .gc{transition:none}
+body.no-anim .gc:hover{transform:none}
+
+/* ── LOADING ── */
+#ld{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:12px}
+#ld .sp{width:22px;height:22px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#ld p{color:#444;font-size:12px}
+#nr{display:none;flex-direction:column;align-items:center;padding:60px 20px;color:#444;gap:8px}
+#nr.show{display:flex}
+
+/* ── GAME OVERLAY ── */
+.ov{position:fixed;inset:0;z-index:5000;background:rgba(7,7,8,0.97);backdrop-filter:blur(20px);display:none;flex-direction:column}
+.ov.on{display:flex}
+.ov-h{display:flex;align-items:center;padding:8px 12px;gap:7px;flex-shrink:0;border-bottom:1px solid var(--border);background:rgba(7,7,8,0.95);height:44px}
+.ov-h h3{flex:1;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ov-h .tag{font-size:9px;color:#444;border:1px solid var(--border2);padding:2px 7px;border-radius:5px;flex-shrink:0}
+.ov-actions{display:flex;gap:3px}
+.ob-btn{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:7px;border:1px solid var(--border2);background:var(--surface);color:#94a3b8;font-size:11px;cursor:pointer;transition:0.2s;font-family:inherit}
+.ob-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(var(--accent-rgb),0.06)}
+.ob-btn.danger:hover{border-color:#ef4444;color:#ef4444;background:rgba(239,68,68,0.06)}
+.ob-btn svg{width:12px;height:12px;flex-shrink:0}
+.ov-body{flex:1;position:relative;background:#000}
+.ov-body iframe{width:100%;height:100%;border:none;background:#000}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:10px;background:rgba(17,17,19,0.96);backdrop-filter:blur(12px);border:1px solid var(--border2);color:var(--text);font-size:12px;z-index:9998;transition:all 0.3s;pointer-events:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.toast.hide{opacity:0;transform:translateX(-50%) translateY(10px)}
+
+/* ── SETTINGS PANEL ── */
+#sp{position:fixed;top:0;right:0;width:min(380px,100vw);height:100%;z-index:8000;background:rgba(7,7,8,0.98);backdrop-filter:blur(24px);border-left:1px solid var(--border);display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);box-shadow:-8px 0 40px rgba(0,0,0,0.6)}
+#sp.on{transform:translateX(0)}
+#sp .sp-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
+#sp .sp-head h3{font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px}
+#sp .sp-head h3 svg{width:16px;height:16px;color:var(--accent)}
+#sp .sp-body{padding:14px 18px 30px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+#sp .sp-body::-webkit-scrollbar{width:3px}
+.ss-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#333;padding-left:2px;margin-bottom:4px}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:11px 13px;transition:border-color 0.15s}
+.sc:hover{border-color:var(--border2)}
+.sc h4{font-size:11px;font-weight:600;display:flex;align-items:center;gap:5px;margin-bottom:6px}
+.sc h4 .ico{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.sc p.desc{font-size:9px;color:#555;margin:-2px 0 7px 23px}
+.sc .tw{display:flex;align-items:center;justify-content:space-between;padding:3px 0}
+.sc .tw span{font-size:11px;color:#94a3b8}
+.sc .tw .val{font-size:9px;color:#555}
+.sc select{width:100%;padding:7px 9px;border-radius:7px;background:#070708;border:1px solid var(--border2);color:#94a3b8;font-size:11px;font-family:inherit;cursor:pointer;transition:0.2s;outline:none}
+.sc select:focus{border-color:var(--accent)}
+.sc .bth{display:flex;gap:3px;margin-top:4px}
+.sc .bth button{flex:1;padding:6px;border-radius:6px;border:1px solid var(--border2);background:#070708;color:#555;font-size:10px;cursor:pointer;transition:0.2s;font-family:inherit;text-align:center}
+.sc .bth button:hover{background:var(--surface);color:#94a3b8}
+.sc .bth button.on{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+.sc .sldr{width:100%;-webkit-appearance:none;height:3px;border-radius:2px;background:#1a1a1e;outline:none;margin-top:4px;cursor:pointer}
+.sc .sldr::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--accent);cursor:pointer}
+.sc .txt-inp{width:100%;padding:7px 9px;border-radius:7px;background:#070708;border:1px solid var(--border2);color:#94a3b8;font-size:11px;font-family:inherit;transition:0.2s;outline:none;margin-top:4px}
+.sc .txt-inp:focus{border-color:var(--accent)}
+
+/* bg picker */
+.bg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:6px}
+.bg-swatch{border-radius:7px;overflow:hidden;cursor:pointer;aspect-ratio:16/9;border:2px solid transparent;transition:border-color 0.2s;position:relative}
+.bg-swatch.on{border-color:var(--accent)}
+.bg-swatch img,.bg-swatch .bg-css{width:100%;height:100%;object-fit:cover;display:block}
+.bg-swatch .bg-css{display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,0.5)}
+.bg-swatch .bg-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);font-size:7px;text-align:center;padding:2px;color:rgba(255,255,255,0.8)}
+
+/* cloak presets */
+.cloak-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;border:1px solid var(--border2);cursor:pointer;transition:0.2s;margin-top:4px;background:transparent;width:100%;text-align:left;font-family:inherit}
+.cloak-item:hover{background:var(--surface);border-color:#333}
+.cloak-item.on{background:rgba(var(--accent-rgb),0.06);border-color:var(--accent)}
+.cloak-item .ci-ico{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:var(--surface);border:1px solid var(--border2)}
+.cloak-item .ci-info{flex:1;min-width:0}
+.cloak-item .ci-info strong{font-size:10px;font-weight:600;display:block}
+.cloak-item .ci-info span{font-size:9px;color:#555;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cloak-item .ci-ck{width:14px;height:14px;border-radius:50%;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-size:7px;color:transparent;flex-shrink:0;transition:0.2s}
+.cloak-item.on .ci-ck{border-color:var(--accent);background:var(--accent);color:#000}
+
+/* ── BACKDROP ── */
+#backdrop{position:fixed;inset:0;z-index:7999;background:rgba(0,0,0,0.55);opacity:0;pointer-events:none;transition:opacity 0.3s}
+#backdrop.on{opacity:1;pointer-events:auto}
+
+/* ── ADMIN LOGIN ── */
+#admin-login{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);backdrop-filter:blur(20px)}
+#admin-login.on{display:flex}
+.admin-card{background:#0a0a0c;border:1px solid #1a1a1e;border-radius:16px;padding:32px 28px;max-width:380px;width:92%;text-align:center}
+.admin-card .shield{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px}
+.admin-card h2{font-size:18px;font-weight:800;margin-bottom:4px}
+.admin-card p{color:#555;font-size:12px;margin-bottom:20px}
+#admin-pw{width:100%;padding:12px 14px;border-radius:10px;background:#070708;border:1px solid #1a1a1e;color:#fff;font-size:14px;text-align:center;font-family:inherit;letter-spacing:3px;outline:none;margin-bottom:10px;transition:0.2s}
+#admin-pw:focus{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,0.1)}
+.admin-card .err-msg{color:#ef4444;font-size:11px;min-height:16px;margin-bottom:8px}
+.admin-card .btn-admin{width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:0.2s;font-family:inherit}
+.admin-card .btn-admin:hover{box-shadow:0 0 20px rgba(239,68,68,0.3);transform:scale(1.02)}
+
+/* ── ADMIN PANEL ── */
+#admin-panel{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;background:rgba(5,5,7,0.98);backdrop-filter:blur(24px)}
+#admin-panel.on{display:flex}
+.adm-nav{display:flex;align-items:center;padding:0 20px;border-bottom:1px solid #1a1a1e;height:52px;gap:10px;flex-shrink:0;background:rgba(0,0,0,0.5)}
+.adm-nav .adm-logo{font-size:13px;font-weight:800;letter-spacing:1.5px;flex:1}
+.adm-nav .adm-logo span{color:#ef4444}
+.adm-status{font-size:10px;padding:3px 10px;border-radius:20px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444}
+.adm-body{display:flex;flex:1;overflow:hidden}
+.adm-sidebar{width:200px;border-right:1px solid #1a1a1e;padding:14px 0;overflow-y:auto;flex-shrink:0;background:rgba(0,0,0,0.2)}
+.adm-sidebar .section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#333;padding:6px 14px 3px}
+.adm-nav-item{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;transition:0.15s;font-size:12px;color:#64748b;border-left:2px solid transparent}
+.adm-nav-item:hover{background:rgba(255,255,255,0.04);color:#94a3b8}
+.adm-nav-item.on{background:rgba(239,68,68,0.08);color:#ef4444;border-left-color:#ef4444}
+.adm-nav-item svg{width:14px;height:14px;flex-shrink:0}
+.adm-main{flex:1;overflow-y:auto;padding:20px}
+.adm-tab{display:none}
+.adm-tab.on{display:block}
+.adm-title{font-size:18px;font-weight:800;margin-bottom:4px}
+.adm-subtitle{font-size:12px;color:#555;margin-bottom:20px}
+.adm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:#0a0a0c;border:1px solid #1a1a1e;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.stat-card .sc-label{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:0.8px}
+.stat-card .sc-val{font-size:26px;font-weight:800;color:#fff}
+.stat-card .sc-sub{font-size:10px;color:#555}
+.adm-table-wrap{background:#0a0a0c;border:1px solid #1a1a1e;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.adm-table{width:100%;border-collapse:collapse}
+.adm-table th{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:#444;padding:10px 14px;text-align:left;border-bottom:1px solid #1a1a1e;background:rgba(0,0,0,0.3)}
+.adm-table td{font-size:11px;padding:9px 14px;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,0.03)}
+.adm-table tr:last-child td{border-bottom:none}
+.adm-table tr:hover td{background:rgba(255,255,255,0.02)}
+.adm-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;border:1px solid;font-size:10px;font-weight:600;cursor:pointer;transition:0.2s;font-family:inherit;background:transparent}
+.adm-btn.red{border-color:rgba(239,68,68,0.4);color:#ef4444}
+.adm-btn.red:hover{background:rgba(239,68,68,0.1)}
+.adm-btn.green{border-color:rgba(34,197,94,0.4);color:#22c55e}
+.adm-btn.green:hover{background:rgba(34,197,94,0.1)}
+.adm-btn.blue{border-color:rgba(59,130,246,0.4);color:#3b82f6}
+.adm-btn.blue:hover{background:rgba(59,130,246,0.1)}
+.adm-btn.yellow{border-color:rgba(234,179,8,0.4);color:#eab308}
+.adm-btn.yellow:hover{background:rgba(234,179,8,0.1)}
+.adm-ctrl-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.adm-ctrl-row:last-child{border-bottom:none}
+.adm-ctrl-row .adm-ctrl-info{flex:1}
+.adm-ctrl-row .adm-ctrl-info h5{font-size:12px;font-weight:600}
+.adm-ctrl-row .adm-ctrl-info p{font-size:10px;color:#555;margin-top:2px}
+.adm-ctrl-row .adm-ctrl-action{flex-shrink:0;margin-left:12px}
+.adm-section{background:#0a0a0c;border:1px solid #1a1a1e;border-radius:10px;padding:14px;margin-bottom:12px}
+.adm-section h4{font-size:12px;font-weight:700;margin-bottom:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.8px}
+.adm-input{width:100%;padding:9px 11px;border-radius:7px;background:#070708;border:1px solid #1a1a1e;color:#94a3b8;font-size:11px;font-family:inherit;outline:none;transition:0.2s;margin-bottom:6px}
+.adm-input:focus{border-color:#ef4444}
+.adm-textarea{width:100%;padding:9px 11px;border-radius:7px;background:#070708;border:1px solid #1a1a1e;color:#94a3b8;font-size:11px;font-family:inherit;outline:none;transition:0.2s;resize:vertical;min-height:80px;margin-bottom:6px}
+.badge-active{background:rgba(34,197,94,0.12);color:#22c55e;border:1px solid rgba(34,197,94,0.25);padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600}
+.badge-banned{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.25);padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600}
+.badge-paused{background:rgba(234,179,8,0.12);color:#eab308;border:1px solid rgba(234,179,8,0.25);padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600}
+
+/* maintenance overlay */
+#maint-overlay{position:fixed;inset:0;z-index:11000;background:rgba(0,0,0,0.96);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px}
+#maint-overlay.on{display:flex}
+#maint-overlay h2{font-size:24px;font-weight:800;color:#ef4444}
+#maint-overlay p{color:#555;font-size:14px;max-width:400px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  :root{--grid-min:120px;--nav-h:48px}
+  #gg{padding:0 10px 20px;gap:6px}
+  #fb-wrap{padding:0 10px}
+  nav{padding:6px 10px}
+  #wh{padding:18px 10px 12px}
+  #sp{width:100%}
+  .search-wrap{max-width:none}
+  .adm-sidebar{display:none}
+  .adm-main{padding:12px}
+}
+@media(min-width:1440px){
+  :root{--grid-min:160px;--nav-h:56px}
+  #gg{gap:10px}
+  nav{padding:10px 24px}
+}
+@media(min-width:1920px){
+  :root{--grid-min:180px}
+}
+
+/* font size modes */
+body.fs-small .gc .info h3{font-size:10px}
+body.fs-large .gc .info h3{font-size:13px}
+
+/* category label mode */
+body.show-cats .gc .info .cat .cat-label{display:inline}
+.cat-label{display:none}
+</style>
+</head>
+<body class="density-cinematic">
+
+<!-- Background layer -->
+<div id="bg-layer"></div>
+<canvas id="matrix-canvas"></canvas>
+
+<!-- MOTD -->
+<div id="motd-bar"></div>
+
+<!-- ONBOARDING -->
+<div id="ob">
+  <div class="st on" id="s1">
+    <div class="ico">🎮</div>
+    <h1>Enter the Vault</h1>
+    <p>What should we call you, legend?</p>
+    <input type="text" id="ni" placeholder="Your name..." maxlength="24" autocomplete="off">
+    <button class="btn btn-p" id="n1" disabled>Continue →</button>
+  </div>
+  <div class="st" id="s2">
+    <div class="ico">⚙️</div>
+    <h1>Configure Your Arcade</h1>
+    <p>Dial in your perfect experience.</p>
+    <div class="rw">
+      <div class="lb">Grid Density<span class="sb">Compact · Cinematic · XL</span></div>
+      <div class="bgr" id="ob-dt">
+        <button data-v="compact">Compact</button>
+        <button data-v="cinematic" class="on">Cinematic</button>
+        <button data-v="xl">XL</button>
+      </div>
+    </div>
+    <div class="rw">
+      <div class="lb">Accent Color<span class="sb">Green or Orange</span></div>
+      <div class="bgr" id="ob-ac">
+        <button data-v="green" class="on">💚 Green</button>
+        <button data-v="orange">🧡 Orange</button>
+      </div>
+    </div>
+    <div class="rw">
+      <div class="lb">Stealth Mode<span class="sb">Looks like schoolwork</span></div>
+      <div class="tg on" id="ob-sm"><div class="k"></div></div>
+    </div>
+    <button class="btn btn-p" id="ob-fn">Enter GameVault →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="ap">
+  <nav>
+    <div class="logo">✦ GAME<em>VAULT</em></div>
+    <div class="search-wrap">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/></svg>
+      <input type="text" id="search-inp" placeholder="Search games..." autocomplete="off">
+    </div>
+    <span id="gc-badge">0</span>
+    <button class="icon-btn" id="fav-filter-btn" title="Favorites">
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    </button>
+    <button class="icon-btn" id="settings-btn" title="Settings">
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </button>
+  </nav>
+
+  <div id="wh">
+    <div class="av" id="av">
+      <span id="av-letter">🎮</span>
+      <div class="av-ed">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+    </div>
+    <h1>Welcome, <span class="nm" id="welcome-name">Player</span></h1>
+    <p>Click any game. Play instantly. No limits.</p>
+  </div>
+
+  <div id="fb-wrap"></div>
+  <div id="ld"><div class="sp"></div><p>Loading games...</p></div>
+  <div id="gg"></div>
+  <div id="nr"><svg style="width:28px;height:28px;opacity:0.35" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="1.5"/></svg><p style="color:#444;font-size:12px">No games found.</p></div>
+</div>
+
+<!-- GAME OVERLAY -->
+<div class="ov" id="game-overlay">
+  <div class="ov-h">
+    <h3 id="game-title">Now Playing</h3>
+    <span class="tag" id="game-cat">Game</span>
+    <div class="ov-actions">
+      <button class="ob-btn" id="btn-fullscreen">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        Fullscreen
+      </button>
+      <button class="ob-btn" id="btn-standalone">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Standalone
+      </button>
+      <button class="ob-btn" id="btn-download">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </button>
+      <button class="ob-btn danger" id="btn-close-game">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Close
+      </button>
+    </div>
+  </div>
+  <div class="ov-body">
+    <iframe id="game-frame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-pointer-lock allow-orientation-lock allow-presentation allow-modals allow-downloads allow-top-navigation-by-user-activation" allow="autoplay; fullscreen; web-share; accelerometer; gyroscope"></iframe>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div id="backdrop"></div>
+<div id="sp">
+  <div class="sp-head">
+    <h3>
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Settings
+    </h3>
+    <button class="icon-btn" id="sp-close">
+      <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="sp-body">
+    <!-- CLOAKING -->
+    <div>
+      <div class="ss-label">🕵️ Cloaking</div>
+      <div class="sc">
+        <h4><span class="ico">🛡️</span> Active Disguise</h4>
+        <p class="desc">What this site looks like to others</p>
+        <div id="cloak-list"></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🤖</span> Auto Cloak</h4>
+        <div class="tw"><span>On Tab Blur</span><div class="tg" id="tog-atb"><div class="k"></div></div></div>
+        <div class="tw"><span>On Mouse Leave (2s)</span><div class="tg" id="tog-aml"><div class="k"></div></div></div>
+        <div class="tw"><span>Guard Mode (` key)</span><div class="tg on" id="tog-gm"><div class="k"></div></div></div>
+      </div>
+    </div>
+    <!-- APPEARANCE -->
+    <div>
+      <div class="ss-label">🎨 Appearance</div>
+      <div class="sc">
+        <h4><span class="ico">📐</span> Grid Density</h4>
+        <div class="bth" id="s-density">
+          <button data-v="compact">Compact</button>
+          <button data-v="cinematic" class="on">Cinematic</button>
+          <button data-v="xl">XL</button>
+        </div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🎯</span> Accent Color</h4>
+        <div class="bth" id="s-accent">
+          <button data-v="green" class="on">💚 Green</button>
+          <button data-v="orange">🧡 Orange</button>
+        </div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🖼️</span> Background</h4>
+        <p class="desc">Choose your backdrop</p>
+        <div class="bg-grid" id="bg-grid"></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">✨</span> Animations</h4>
+        <div class="tw"><span>Card hover effects</span><div class="tg on" id="tog-anim"><div class="k"></div></div></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🔤</span> Font Size</h4>
+        <div class="bth" id="s-fontsize">
+          <button data-v="small">Small</button>
+          <button data-v="medium" class="on">Medium</button>
+          <button data-v="large">Large</button>
+        </div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🏷️</span> Category Labels</h4>
+        <div class="tw"><span>Show on cards</span><div class="tg" id="tog-cats"><div class="k"></div></div></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">📊</span> Play Counter</h4>
+        <div class="tw"><span>Show play count on cards</span><div class="tg" id="tog-plays"><div class="k"></div></div></div>
+      </div>
+    </div>
+    <!-- GAMEPLAY -->
+    <div>
+      <div class="ss-label">🎮 Gameplay</div>
+      <div class="sc">
+        <h4><span class="ico">⚙️</span> Overlay Options</h4>
+        <div class="tw"><span>Confirm before close</span><div class="tg" id="tog-confirm"><div class="k"></div></div></div>
+        <div class="tw"><span>Keep game in background</span><div class="tg" id="tog-keepbg"><div class="k"></div></div></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🔁</span> Auto-Launch</h4>
+        <div class="tw"><span>Resume last game on startup</span><div class="tg" id="tog-autolaunch"><div class="k"></div></div></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🔊</span> UI Sound</h4>
+        <div class="tw"><span>Click sounds</span><div class="tg on" id="tog-sound"><div class="k"></div></div></div>
+        <div class="tw"><span>Volume</span><input type="range" class="sldr" id="s-vol" min="0" max="100" value="30"></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🗂️</span> Sort Order</h4>
+        <select id="s-sort">
+          <option value="default">Default</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+          <option value="plays">Most Played</option>
+          <option value="recent">Recently Played</option>
+        </select>
+      </div>
+    </div>
+    <!-- STEALTH -->
+    <div>
+      <div class="ss-label">🧠 Stealth</div>
+      <div class="sc">
+        <h4><span class="ico">🔑</span> Stealth Keywords</h4>
+        <div class="tw"><span>Inject edu metadata</span><div class="tg on" id="tog-stealth"><div class="k"></div></div></div>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">⚡</span> Panic Key</h4>
+        <p class="desc">Emergency escape key</p>
+        <select id="s-panickey">
+          <option value="Escape">⎋ Escape</option>
+          <option value="Backquote" selected>` Backtick</option>
+          <option value="F12">F12</option>
+          <option value="F11">F11</option>
+          <option value="F1">F1</option>
+          <option value="Delete">⌦ Delete</option>
+          <option value="Home">⌂ Home</option>
+        </select>
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">📛</span> Tab Title Override</h4>
+        <input type="text" class="txt-inp" id="s-tabtitle" placeholder="Leave blank for cloak titles...">
+      </div>
+    </div>
+    <!-- ACCOUNT -->
+    <div>
+      <div class="ss-label">👤 Account</div>
+      <div class="sc">
+        <h4><span class="ico">✏️</span> Your Name</h4>
+        <div style="display:flex;gap:5px;margin-top:4px">
+          <input type="text" class="txt-inp" id="s-name" placeholder="Your name..." style="flex:1;margin-top:0">
+          <button class="btn-s" id="s-name-save">Save</button>
+        </div>
+      </div>
+    </div>
+    <!-- DATA -->
+    <div>
+      <div class="ss-label">💾 Data</div>
+      <div class="sc">
+        <h4><span class="ico">📋</span> Settings Management</h4>
+        <div style="display:flex;gap:4px;margin-top:4px">
+          <button class="btn-s" id="s-export" style="flex:1;text-align:center">📤 Export</button>
+          <button class="btn-s" id="s-import" style="flex:1;text-align:center">📥 Import</button>
+          <button class="btn-s" id="s-reset" style="flex:1;text-align:center;color:#ef4444">🗑️ Reset</button>
+        </div>
+        <input type="file" id="s-import-file" accept=".json" style="display:none">
+      </div>
+      <div class="sc" style="margin-top:6px">
+        <h4><span class="ico">🎮</span> Game Progress</h4>
+        <button class="btn-s" id="s-clear-progress" style="width:100%;text-align:center;color:#ef4444;margin-top:4px">🗑️ Clear All Progress</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast hide" id="toast"></div>
+
+<!-- ADMIN LOGIN -->
+<div id="admin-login">
+  <div class="admin-card">
+    <div class="shield">🛡️</div>
+    <h2>Admin Access</h2>
+    <p>Enter the administration password to continue</p>
+    <input type="password" id="admin-pw" placeholder="••••••••••••" autocomplete="off">
+    <div class="err-msg" id="admin-err"></div>
+    <button class="btn-admin" id="admin-submit">Authenticate</button>
+    <br><br>
+    <button class="btn-s" id="admin-cancel" style="width:100%">Cancel</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+  <div class="adm-nav">
+    <div class="adm-logo">GAME<span>VAULT</span> ADMIN</div>
+    <div class="adm-status">⬤ Administrator</div>
+    <button class="icon-btn" id="admin-logout" title="Logout" style="margin-left:8px">
+      <svg width="14" height="14" fill="none" stroke="#ef4444" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
+  </div>
+  <div class="adm-body">
+    <div class="adm-sidebar">
+      <div class="section-label">Overview</div>
+      <div class="adm-nav-item on" data-tab="dashboard">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="adm-nav-item" data-tab="users">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Users
+      </div>
+      <div class="section-label" style="margin-top:8px">Management</div>
+      <div class="adm-nav-item" data-tab="games-ctrl">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01M7 12v-2M7 10h2"/></svg>
+        Games
+      </div>
+      <div class="adm-nav-item" data-tab="broadcast">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.5 7.39a16 16 0 006.29 6.29l.75-.75a2 2 0 012.11-.45c.9.37 1.86.62 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Broadcast
+      </div>
+      <div class="adm-nav-item" data-tab="security">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Security
+      </div>
+      <div class="adm-nav-item" data-tab="stats">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Statistics
+      </div>
+      <div class="adm-nav-item" data-tab="system">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        System
+      </div>
+      <div class="adm-nav-item" data-tab="logs">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Logs
+      </div>
+    </div>
+    <div class="adm-main">
+
+      <!-- DASHBOARD -->
+      <div class="adm-tab on" id="tab-dashboard">
+        <div class="adm-title">Dashboard</div>
+        <div class="adm-subtitle">Real-time platform overview</div>
+        <div class="adm-grid" id="adm-stats-grid"></div>
+        <div class="adm-section">
+          <h4>Quick Actions</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <button class="adm-btn red" id="adm-q-maint">🔧 Maintenance Mode</button>
+            <button class="adm-btn blue" id="adm-q-broadcast">📢 Broadcast Message</button>
+            <button class="adm-btn yellow" id="adm-q-cloak">🕵️ Force Cloak All</button>
+            <button class="adm-btn green" id="adm-q-reload">🔄 Refresh Games Cache</button>
+            <button class="adm-btn red" id="adm-q-panic">⚡ Force Panic All</button>
+            <button class="adm-btn blue" id="adm-q-export">📦 Export All Data</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="adm-tab" id="tab-users">
+        <div class="adm-title">User Management</div>
+        <div class="adm-subtitle">View and manage all registered users</div>
+        <div class="adm-section">
+          <h4>All Users</h4>
+          <div class="adm-table-wrap">
+            <table class="adm-table">
+              <thead><tr><th>Username</th><th>Status</th><th>Plays</th><th>Last Active</th><th>Actions</th></tr></thead>
+              <tbody id="adm-users-tbody"></tbody>
+            </table>
+          </div>
+          <button class="adm-btn green" id="adm-add-user-btn">+ Add Test User</button>
+        </div>
+        <div class="adm-section">
+          <h4>Banned Users</h4>
+          <div class="adm-table-wrap">
+            <table class="adm-table">
+              <thead><tr><th>Username</th><th>Reason</th><th>Actions</th></tr></thead>
+              <tbody id="adm-banned-tbody"></tbody>
+            </table>
+          </div>
+          <button class="adm-btn red" id="adm-clear-banned">Clear All Bans</button>
+        </div>
+      </div>
+
+      <!-- GAMES CONTROL -->
+      <div class="adm-tab" id="tab-games-ctrl">
+        <div class="adm-title">Game Controls</div>
+        <div class="adm-subtitle">Enable/disable games and manage content</div>
+        <div class="adm-section">
+          <h4>Game Visibility</h4>
+          <input type="text" id="adm-games-search" placeholder="Search games..." style="width:100%;padding:7px 9px;border-radius:7px;background:#070708;border:1px solid #1a1a1e;color:#94a3b8;font-size:11px;font-family:inherit;outline:none;margin-bottom:8px;transition:0.2s" oninput="admGameSearch(this.value)">
+          <div id="adm-games-list" style="max-height:400px;overflow-y:auto"></div>
+        </div>
+        <div class="adm-section">
+          <h4>Content Filter</h4>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Adult Content Filter</h5><p>Block mature-rated games from appearing</p></div>
+            <div class="adm-ctrl-action"><div class="tg on" id="adm-adult-filter"><div class="k"></div></div></div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Violence Filter</h5><p>Hide games with extreme violence</p></div>
+            <div class="adm-ctrl-action"><div class="tg" id="adm-violence-filter"><div class="k"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BROADCAST -->
+      <div class="adm-tab" id="tab-broadcast">
+        <div class="adm-title">Broadcast & Announcements</div>
+        <div class="adm-subtitle">Send messages to all active sessions</div>
+        <div class="adm-section">
+          <h4>Message of the Day (MOTD)</h4>
+          <textarea class="adm-textarea" id="adm-motd-text" placeholder="Enter MOTD message..."></textarea>
+          <div style="display:flex;gap:6px">
+            <button class="adm-btn green" id="adm-set-motd">Set MOTD</button>
+            <button class="adm-btn red" id="adm-clear-motd">Clear MOTD</button>
+          </div>
+        </div>
+        <div class="adm-section">
+          <h4>Toast Broadcast</h4>
+          <input type="text" class="adm-input" id="adm-broadcast-msg" placeholder="Message to broadcast...">
+          <button class="adm-btn blue" id="adm-send-broadcast">📢 Send Broadcast</button>
+        </div>
+        <div class="adm-section">
+          <h4>Countdown Timer</h4>
+          <input type="number" class="adm-input" id="adm-countdown-mins" placeholder="Minutes..." min="1" max="120" value="30">
+          <button class="adm-btn yellow" id="adm-set-countdown">⏱ Set Session Timer</button>
+          <button class="adm-btn red" id="adm-clear-countdown">Cancel Timer</button>
+        </div>
+      </div>
+
+      <!-- SECURITY -->
+      <div class="adm-tab" id="tab-security">
+        <div class="adm-title">Security Controls</div>
+        <div class="adm-subtitle">Platform security and access management</div>
+        <div class="adm-section">
+          <h4>Access Controls</h4>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Maintenance Mode</h5><p>Block all non-admin access</p></div>
+            <div class="adm-ctrl-action"><div class="tg" id="adm-maint-toggle"><div class="k"></div></div></div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Require Name on Entry</h5><p>Force new users to enter a name</p></div>
+            <div class="adm-ctrl-action"><div class="tg on" id="adm-req-name"><div class="k"></div></div></div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Session Time Limit</h5><p>Auto-cloak after set time (minutes)</p></div>
+            <div class="adm-ctrl-action">
+              <input type="number" style="width:60px;padding:4px 8px;border-radius:6px;background:#070708;border:1px solid #1a1a1e;color:#94a3b8;font-size:11px;font-family:inherit;outline:none" id="adm-session-time" min="0" max="480" value="0" placeholder="0=∞">
+            </div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>👑 Owner Only Mode</h5><p>Only you (admin) can see and play games. Others see a locked message.</p></div>
+            <div class="adm-ctrl-action"><div class="tg" id="adm-owner-only"><div class="k"></div></div></div>
+          </div>
+        </div>
+        <div class="adm-section">
+          <h4>Stealth Override</h4>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Force Cloak All Sessions</h5><p>Immediately cloak all open windows</p></div>
+            <div class="adm-ctrl-action"><button class="adm-btn yellow" id="adm-force-cloak">Execute</button></div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Force Panic All Sessions</h5><p>Trigger panic mode on all windows</p></div>
+            <div class="adm-ctrl-action"><button class="adm-btn red" id="adm-force-panic">Execute</button></div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Force Reload All Clients</h5><p>Reload all connected sessions</p></div>
+            <div class="adm-ctrl-action"><button class="adm-btn blue" id="adm-force-reload">Execute</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATISTICS -->
+      <div class="adm-tab" id="tab-stats">
+        <div class="adm-title">Play Statistics</div>
+        <div class="adm-subtitle">Game play counts and user engagement data</div>
+        <div class="adm-section">
+          <h4>Most Played Games</h4>
+          <div id="adm-top-games"></div>
+        </div>
+        <div class="adm-section">
+          <h4>Actions</h4>
+          <div style="display:flex;gap:6px">
+            <button class="adm-btn red" id="adm-reset-stats">Reset All Stats</button>
+            <button class="adm-btn blue" id="adm-export-stats">Export Stats CSV</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SYSTEM -->
+      <div class="adm-tab" id="tab-system">
+        <div class="adm-title">System Settings</div>
+        <div class="adm-subtitle">Platform configuration and global controls</div>
+        <div class="adm-section">
+          <h4>Display Settings</h4>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Global Card Size</h5><p>Override all users' card size</p></div>
+            <div class="adm-ctrl-action">
+              <select style="padding:5px 8px;border-radius:6px;background:#070708;border:1px solid #1a1a1e;color:#94a3b8;font-size:11px;font-family:inherit;outline:none" id="adm-global-density">
+                <option value="">User Choice</option>
+                <option value="compact">Compact</option>
+                <option value="cinematic">Cinematic</option>
+                <option value="xl">XL</option>
+              </select>
+            </div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Games Cache</h5><p>Clear and refresh game catalog</p></div>
+            <div class="adm-ctrl-action"><button class="adm-btn green" id="adm-clear-cache">Clear Cache</button></div>
+          </div>
+        </div>
+        <div class="adm-section">
+          <h4>Data Management</h4>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Export All User Data</h5><p>Download complete platform data as JSON</p></div>
+            <div class="adm-ctrl-action"><button class="adm-btn green" id="adm-export-all">Export</button></div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Clear All Progress</h5><p>Reset every user's game progress</p></div>
+            <div class="adm-ctrl-action"><button class="adm-btn red" id="adm-clear-all-progress">Clear All</button></div>
+          </div>
+          <div class="adm-ctrl-row">
+            <div class="adm-ctrl-info"><h5>Reset Platform</h5><p>Factory reset - removes all data</p></div>
+            <div class="adm-ctrl-action"><button class="adm-btn red" id="adm-factory-reset">⚠️ Reset</button></div>
+          </div>
+        </div>
+        <div class="adm-section">
+          <h4>Change Admin Password</h4>
+          <input type="password" class="adm-input" id="adm-new-pw" placeholder="New password...">
+          <button class="adm-btn blue" id="adm-save-pw">Save Password</button>
+        </div>
+      </div>
+
+      <!-- LOGS -->
+      <div class="adm-tab" id="tab-logs">
+        <div class="adm-title">System Logs</div>
+        <div class="adm-subtitle">Error and event log</div>
+        <div class="adm-section">
+          <h4>Event Log</h4>
+          <div id="adm-log-list" style="max-height:400px;overflow-y:auto;font-size:10px;font-family:monospace;color:#555;line-height:1.8"></div>
+          <button class="adm-btn red" id="adm-clear-logs" style="margin-top:8px">Clear Logs</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MAINTENANCE OVERLAY -->
+<div id="maint-overlay">
+  <div style="font-size:48px">🔧</div>
+  <h2>Under Maintenance</h2>
+  <p id="maint-msg">The platform is currently undergoing maintenance. Please check back later.</p>
+  <button onclick="maintOverlay.classList.remove('on');openAdminLogin();" style="margin-top:16px;padding:8px 18px;border-radius:8px;border:1px solid #ef4444;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;font-family:inherit">🛡️ Admin Access</button>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ── GUARD: file:// protocol ──────────────────────────────────────
+if(window.location.protocol==='file:'){
+  document.body.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#070708;color:#fff;font-family:sans-serif;gap:16px;padding:24px;text-align:center"><h1>🚫 Open via server</h1><code style="background:#111;padding:12px 20px;border-radius:10px;border:1px solid #333;font-size:13px">node server.js</code><p style="color:#64748b;font-size:13px">Then open <strong>http://localhost:3000</strong></p></div>';
+  return;
+}
+
+// ── ERROR HANDLER ────────────────────────────────────────────────
+window.onerror=function(m,u,l){console.error('Error:',m,'line',l);return true;};
+window.addEventListener('unhandledrejection',function(e){console.warn('Unhandled promise:',e.reason);});
+
+// ── CONSTANTS ────────────────────────────────────────────────────
+var ADMIN_PW_KEY='gv_admin_pw';
+var DEFAULT_ADMIN_PW='roundMin+2';
+
+// ── BACKGROUNDS ──────────────────────────────────────────────────
+var BACKGROUNDS=[
+  {id:'void',label:'Dark Void',css:true,bg:'radial-gradient(ellipse at 20% 50%,#0a0f1a 0%,#070708 70%)'},
+  {id:'neon-dragon',label:'Neon Dragon',img:'/backgrounds/neon-dragon.jpg'},
+  {id:'cyberpunk',label:'Cyberpunk',img:'/backgrounds/cyberpunk.jpg'},
+  {id:'aurora',label:'Aurora',img:'/backgrounds/aurora.jpg'},
+  {id:'nebula',label:'Nebula',img:'/backgrounds/nebula.jpg'},
+  {id:'matrix',label:'Matrix',img:'/backgrounds/matrix.jpg'},
+  {id:'lava',label:'Lava Forge',img:'/backgrounds/lava.jpg'},
+  {id:'ocean',label:'Deep Ocean',css:true,bg:'radial-gradient(ellipse at 50% 80%,#001a2e 0%,#070708 70%)'},
+  {id:'ember',label:'Ember',css:true,bg:'radial-gradient(ellipse at 30% 70%,#1a0800 0%,#070708 70%)'},
+  {id:'gold',label:'Gold Rush',css:true,bg:'radial-gradient(ellipse at 60% 40%,#1a1200 0%,#070708 70%)'}
+];
+
+// ── GAME ICON MAP ────────────────────────────────────────────────
+// Comprehensive map: game title (lowercase) → icon URL or emoji fallback
+var ICON_MAP={
+  // Local games - using their own thumbnails
+  '1v1.lol':'https://1v1.lol/favicon.ico',
+  '1v1 lol':'https://1v1.lol/favicon.ico',
+  '2048':'https://play2048.co/favicon.ico',
+  'baseball bros':'https://baseballbros.io/favicon.ico',
+  'basket bros':'https://basketbros.io/favicon.ico',
+  'bitlife':'https://bitlifeonline.net/favicon.ico',
+  'cookie clicker':'https://orteil.dashnet.org/cookieclicker/img/favicon.ico',
+  'drive mad':'https://drive-mad.com/favicon.ico',
+  'eggy car':'https://eggcar.github.io/favicon.ico',
+  'polytrack':'https://polytrack.game/favicon.ico',
+  'retro bowl':'https://retrobowl.me/favicon.ico',
+  'run 3':'https://www.coolmathgames.com/sites/default/files/Run3_OG.jpg',
+  'slope':'https://slope-game.com/favicon.ico',
+  'smash karts':'https://smashkarts.io/favicon.ico',
+  'snake':'https://g.top4top.io/p_2943snvw91.png',
+  'stickman hook':'https://stickman-hook.com/favicon.ico',
+  'subway surfers':'https://poki.com/assets/subway-surfers.png',
+  'temple run 2':'https://play.famobi.com/games/temple-run-2/logo.png',
+  'tetris':'https://tetris.com/favicon.ico',
+  'tunnel rush':'https://tunnelrush.io/favicon.ico',
+  // Popular catalog games
+  'minecraft':'https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/minecraft-creeper-face.png',
+  'among us':'https://www.innersloth.com/wp-content/uploads/2020/08/icon512.png',
+  'friday night funkin':'https://ninja-muffin24.itch.io/funkin/favicon.ico',
+  'fnf':'https://ninja-muffin24.itch.io/funkin/favicon.ico',
+  'geometry dash':'https://www.robtopgames.com/assets/geometrydash/icon.png',
+  'papa\'s freezeria':'https://www.coolmathgames.com/sites/default/files/PapasFreezeriaToGo_OG.jpg',
+  'happy wheels':'https://totaljerkface.com/favicon.ico',
+  'bloons tower defense':'https://ninjakiwi.com/favicon.ico',
+  'btd5':'https://ninjakiwi.com/favicon.ico',
+  'age of war':'https://www.max-games.com/favicon.ico',
+  'minecraft classic':'https://classic.minecraft.net/favicon.ico',
+  'pokemon fire red':'https://www.pokemondb.net/static/img/favicon.ico',
+  'pokemon':'https://www.pokemondb.net/static/img/favicon.ico',
+  'super mario':'https://mario.nintendo.com/favicon.ico',
+  'mario':'https://mario.nintendo.com/favicon.ico',
+  'sonic':'https://sonic.sega.com/favicon.ico',
+  'zelda':'https://www.zelda.com/favicon.ico',
+  'cluster rush':'https://clusterbros.com/favicon.ico',
+  'snow rider 3d':'https://snowrider3d.io/favicon.ico',
+  'monkey mart':'https://monkeymart.io/favicon.ico',
+  'funny shooter 2':'https://funnyshooter.io/favicon.ico',
+  'shell shockers':'https://shellshock.io/favicon.ico',
+  'ragdoll archers':'https://ragdollarchers.io/favicon.ico',
+  'food stars':'https://foodstars.io/favicon.ico',
+  'highway traffic':'https://highwaytraffic.io/favicon.ico',
+  'hyper cars':'https://hypercars.io/favicon.ico',
+  'papa louie 2':'https://flipline.com/favicon.ico',
+  'papa louie':'https://flipline.com/favicon.ico',
+  'bloxorz':'https://www.coolmathgames.com/favicon.ico',
+  'fireboy and watergirl':'https://www.coolmathgames.com/sites/default/files/FireboyandWatergirlForest_OG.jpg',
+  'raft wars':'https://www.raftwars.com/favicon.ico',
+  'tank trouble':'https://www.tanktrouble.com/favicon.ico',
+  'duck life':'https://www.ducklife.com/favicon.ico',
+  'learn to fly':'https://www.learntoflygame.com/favicon.ico',
+  'burrito bison':'https://juicybean.itch.io/favicon.ico',
+  'electric man':'https://www.stickpage.com/favicon.ico',
+  'swords and souls':'https://swordsandsouls.com/favicon.ico',
+  'adventure capitalist':'https://steamcdn-a.akamaihd.net/steam/apps/346900/header.jpg',
+  'idle breakout':'https://kodiqi.com/favicon.ico',
+  'clicker heroes':'https://www.clickerheroes.com/favicon.ico',
+  'antimatter dimensions':'https://ivark.github.io/AntimatterDimensions/img/favicon.ico',
+  'granny':'https://dvloper.net/favicon.ico',
+  'fnaf':'https://scottgames.com/favicon.ico',
+  'five nights at freddy\'s':'https://scottgames.com/favicon.ico',
+  'world\'s hardest game':'https://www.worldshardestgame.com/favicon.ico',
+  'basketball stars':'https://www.y8.com/favicon.ico',
+  'archery world tour':'https://poki.com/favicon.ico',
+  'jet ski race':'https://poki.com/favicon.ico',
+  'doodle jump':'https://doodlejump.com/favicon.ico',
+  'flappy bird':'https://flappybird.io/favicon.ico',
+  'angry birds':'https://www.angrybirds.com/wp-content/uploads/2019/10/angry_birds_logo.png',
+  'cut the rope':'https://cuttherope.net/favicon.ico',
+  'bubble shooter':'https://www.bubbleshooter.net/favicon.ico',
+  'plants vs zombies':'https://www.ea.com/games/plants-vs-zombies/favicon.ico',
+  'tower defense':'https://www.towerdefense.co/favicon.ico',
+  'drift hunters':'https://drifthunters.io/favicon.ico',
+  'madalin stunt cars':'https://madalinstuntcars.com/favicon.ico',
+  'beach buggy racing':'https://vectorunit.com/favicon.ico',
+  'motocross nitro':'https://www.motocrossnitro.com/favicon.ico',
+  'free rider':'https://freerider.io/favicon.ico',
+  'roblox':'https://www.roblox.com/favicon.ico',
+  'fortnite':'https://www.epicgames.com/fortnite/favicon.ico',
+  'valorant':'https://www.valorant.com/favicon.ico',
+  'krunker':'https://krunker.io/favicon.ico',
+  'surviv.io':'https://surviv.io/favicon.ico',
+  'moomoo.io':'https://moomoo.io/favicon.ico',
+  'agar.io':'https://agar.io/favicon.ico',
+  'slither.io':'https://slither.io/favicon.ico',
+  'diep.io':'https://diep.io/favicon.ico',
+  'zombs royale':'https://zombsroyale.io/favicon.ico',
+  'paper io':'https://paper-io.com/favicon.ico',
+  'skribbl.io':'https://skribbl.io/favicon.ico',
+  'gartic phone':'https://garticphone.com/favicon.ico',
+  '8 ball pool':'https://miniclip.com/favicon.ico',
+  'pool':'https://miniclip.com/favicon.ico',
+  'ping pong':'https://pongame.org/favicon.ico',
+  'table tennis':'https://www.tabletennistournaments.net/favicon.ico',
+  'chess':'https://www.chess.com/favicon.ico',
+  'checkers':'https://www.247checkers.com/favicon.ico',
+  'backgammon':'https://www.247backgammon.com/favicon.ico',
+  'mahjong':'https://www.247mahjong.com/favicon.ico',
+  'solitaire':'https://www.solitr.com/favicon.ico',
+  'uno':'https://www.worldofcardgames.com/favicon.ico'
+};
+
+// Category emoji map
+var CAT_EMOJI={
+  'action':'⚔️','racing':'🏎️','sports':'⚽','puzzle':'🧩',
+  'platformer':'🎮','shooter':'🎯','horror':'👻','retro':'👾',
+  'rpg':'🗡️','fighting':'👊','simulation':'🏗️','strategy':'♟️',
+  'idle':'⏱️','endless':'∞','arcade':'🕹️','casual':'🎲',
+  'adventure':'🗺️','minecraft':'⛏️','pokemon':'🔴','zelda':'⚔️',
+  'mario':'🍄','sonic':'💨','multiplayer':'👥','parkour':'🏃',
+  'other':'🎮','2 player':'👥','driving':'🚗','io':'🌐',
+  'battle royale':'🏆','card':'🃏','board':'🎯','music':'🎵'
+};
+
+function getCatEmoji(cat){
+  if(!cat)return'🎮';
+  return CAT_EMOJI[(cat||'').toLowerCase()]||'🎮';
+}
+
+// ── STATE ────────────────────────────────────────────────────────
+var G=[],filteredG=[],CG=null;
+var SEARCH='',ACTIVE_CAT=null,SORT_BY='default',SHOW_FAVS=false;
+var BATCH=40,OFFSET=0;
+var DISABLED_GAMES={};
+var FAVORITES={};
+var PLAY_COUNTS={};
+var LAST_PLAYED={};
+var BANNED_USERS={};
+var PAUSED_USERS={};
+var ADM_LOGS=[];
+var SESSION_TIMER=null;
+var ADMIN_UNLOCKED=false;
+var CURRENT_BG='void';
+var ADMIN_COMBO_KEYS=[];
+var ADMIN_COMBO_TIMER=null;
+
+// Settings
+var S={
+  name:'Player',
+  density:'cinematic',
+  accent:'green',
+  bg:'void',
+  anim:true,
+  cats:false,
+  plays:false,
+  confirm:false,
+  keepbg:false,
+  autolaunch:false,
+  sound:true,
+  vol:30,
+  sort:'default',
+  stealth:true,
+  atb:false, // auto cloak on tab blur
+  aml:false, // auto cloak on mouse leave
+  gm:true,   // guard mode (backtick)
+  cloak:'docs',
+  tabtitle:'',
+  panickey:'Backquote',
+  fontsize:'medium'
+};
+
+var CLOAKS=[
+  {id:'docs',name:'Google Docs',title:'Google Docs',icon:'📝',favicon:'https://ssl.gstatic.com/images/branding/product/1x/docs_2020q4_32dp.png',desc:'Blank document'},
+  {id:'classroom',name:'Google Classroom',title:'Home - Google Classroom',icon:'📚',favicon:'https://ssl.gstatic.com/classroom/ic_classroom_48dp.png',desc:'Classroom dashboard'},
+  {id:'drive',name:'Google Drive',title:'My Drive - Google Drive',icon:'📁',favicon:'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png',desc:'File storage'},
+  {id:'khan',name:'Khan Academy',title:'Dashboard | Khan Academy',icon:'📐',favicon:'https://cdn.kastatic.org/images/favicon.ico',desc:'Math practice'},
+  {id:'canvas',name:'Canvas LMS',title:'Dashboard - Canvas LMS',icon:'📋',favicon:'https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico',desc:'LMS portal'},
+  {id:'zoom',name:'Zoom Meeting',title:'Zoom Meeting',icon:'💻',favicon:'https://zoom.us/favicon.ico',desc:'Video call'},
+  {id:'scholar',name:'Google Scholar',title:'Google Scholar',icon:'🎓',favicon:'https://scholar.google.com/favicon.ico',desc:'Academic search'},
+  {id:'gmail',name:'Gmail',title:'Inbox - Gmail',icon:'✉️',favicon:'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico',desc:'Email inbox'}
+];
+
+// ── DOM REFS ─────────────────────────────────────────────────────
+var $=function(id){return document.getElementById(id);};
+var ap=$('ap'),ob=$('ob'),s1=$('s1'),s2=$('s2');
+var ni=$('ni'),n1=$('n1'),obFn=$('ob-fn'),obDt=$('ob-dt'),obAc=$('ob-ac'),obSm=$('ob-sm');
+var gg=$('gg'),fbWrap=$('fb-wrap'),ld=$('ld'),nr=$('nr');
+var searchInp=$('search-inp'),gcBadge=$('gc-badge');
+var gameOverlay=$('game-overlay'),gameFrame=$('game-frame');
+var gameTitle=$('game-title'),gameCat=$('game-cat');
+var btnClose=$('btn-close-game'),btnStandalone=$('btn-standalone'),btnDownload=$('btn-download'),btnFullscreen=$('btn-fullscreen');
+var sp=$('sp'),backdrop=$('backdrop'),settingsBtn=$('settings-btn'),spClose=$('sp-close');
+var toast=$('toast'),wh=$('wh'),av=$('av'),avLetter=$('av-letter'),welcomeName=$('welcome-name');
+var favFilterBtn=$('fav-filter-btn');
+var motdBar=$('motd-bar');
+var adminLogin=$('admin-login'),adminPanel=$('admin-panel');
+var adminPw=$('admin-pw'),adminErr=$('admin-err'),adminSubmit=$('admin-submit'),adminCancel=$('admin-cancel'),adminLogout=$('admin-logout');
+var maintOverlay=$('maint-overlay');
+var bgLayer=$('bg-layer'),matrixCanvas=$('matrix-canvas');
+
+// Settings toggles
+var togAtb=$('tog-atb'),togAml=$('tog-aml'),togGm=$('tog-gm');
+var togAnim=$('tog-anim'),togCats=$('tog-cats'),togPlays=$('tog-plays');
+var togConfirm=$('tog-confirm'),togKeepp=$('tog-keepbg'),togAutolaunch=$('tog-autolaunch');
+var togSound=$('tog-sound'),sVol=$('s-vol'),sSort=$('s-sort');
+var togStealth=$('tog-stealth'),sPanickey=$('s-panickey'),sTabtitle=$('s-tabtitle');
+var sDensity=$('s-density'),sAccent=$('s-accent'),sFontsize=$('s-fontsize');
+var sName=$('s-name'),sNameSave=$('s-name-save');
+var sExport=$('s-export'),sImport=$('s-import'),sReset=$('s-reset'),sImportFile=$('s-import-file');
+var sClearProgress=$('s-clear-progress');
+var cloakList=$('cloak-list'),bgGrid=$('bg-grid');
+
+// ── LOAD PREFS ───────────────────────────────────────────────────
+(function(){
+  try{
+    var raw=localStorage.getItem('gv_prefs');
+    if(raw){var p=JSON.parse(raw);Object.keys(p).forEach(function(k){if(k in S)S[k]=p[k];});}
+    FAVORITES=JSON.parse(localStorage.getItem('gv_favs')||'{}');
+    PLAY_COUNTS=JSON.parse(localStorage.getItem('gv_plays')||'{}');
+    LAST_PLAYED=JSON.parse(localStorage.getItem('gv_last')||'{}');
+    BANNED_USERS=JSON.parse(localStorage.getItem('gv_banned')||'{}');
+    PAUSED_USERS=JSON.parse(localStorage.getItem('gv_paused')||'{}');
+    DISABLED_GAMES=JSON.parse(localStorage.getItem('gv_disabled')||'{}');
+    ADM_LOGS=JSON.parse(localStorage.getItem('gv_logs')||'[]');
+    ADMIN_COMBO_KEYS=[];
+  }catch(e){console.warn('Prefs load err',e);}
+
+  // Check maintenance
+  var maintMsg=localStorage.getItem('gv_maint');
+  if(maintMsg){
+    maintOverlay.classList.add('on');
+    $('maint-msg').textContent=maintMsg;
+    if(ADMIN_UNLOCKED){
+      maintOverlay.classList.remove('on');
+    }else{
+      return;
+    }
+  }
+
+  if(S.name&&S.name!=='Player'){
+    ap.classList.add('on');ob.classList.add('hd');
+    applyAllSettings();
+    loadGames();
+  } else {
+    ob.classList.remove('hd');
+  }
+})();
+
+// ── SAVE PREFS ───────────────────────────────────────────────────
+function savePrefs(){
+  try{localStorage.setItem('gv_prefs',JSON.stringify(S));}catch(e){}
+}
+function saveFavs(){try{localStorage.setItem('gv_favs',JSON.stringify(FAVORITES));}catch(e){}}
+function savePlays(){try{localStorage.setItem('gv_plays',JSON.stringify(PLAY_COUNTS));}catch(e){}}
+function saveLastPlayed(){try{localStorage.setItem('gv_last',JSON.stringify(LAST_PLAYED));}catch(e){}}
+
+// ── ADMIN LOG ────────────────────────────────────────────────────
+function admLog(msg){
+  var entry=new Date().toLocaleTimeString()+': '+msg;
+  ADM_LOGS.unshift(entry);
+  if(ADM_LOGS.length>200)ADM_LOGS=ADM_LOGS.slice(0,200);
+  try{localStorage.setItem('gv_logs',JSON.stringify(ADM_LOGS));}catch(e){}
+}
+
+// ── TOAST ────────────────────────────────────────────────────────
+var toastTimer=null;
+function showToast(msg){
+  toast.textContent=msg;toast.classList.remove('hide');
+  clearTimeout(toastTimer);toastTimer=setTimeout(function(){toast.classList.add('hide');},2800);
+}
+
+// ── SOUND ────────────────────────────────────────────────────────
+function playBeep(freq,dur){
+  if(!S.sound)return;
+  try{
+    var ac=new(window.AudioContext||window.webkitAudioContext)();
+    var osc=ac.createOscillator(),gain=ac.createGain();
+    osc.connect(gain);gain.connect(ac.destination);
+    osc.frequency.value=freq||880;
+    gain.gain.value=(S.vol||30)/1000;
+    osc.start();osc.stop(ac.currentTime+(dur||0.08));
+  }catch(e){}
+}
+
+// ── ONBOARDING ───────────────────────────────────────────────────
+ni.addEventListener('input',function(){n1.disabled=ni.value.trim().length<1;});
+ni.addEventListener('keydown',function(e){if(e.key==='Enter'&&!n1.disabled)n1.click();});
+n1.addEventListener('click',function(){
+  if(ni.value.trim().length<1)return;
+  s1.classList.remove('on');s2.classList.add('on');
+});
+
+obFn.addEventListener('click',function(){
+  var d=obDt.querySelector('.on')?.getAttribute('data-v')||'cinematic';
+  var a=obAc.querySelector('.on')?.getAttribute('data-v')||'green';
+  var sm=obSm.classList.contains('on');
+  S.name=ni.value.trim()||'Player';
+  S.density=d;S.accent=a;S.stealth=sm;
+  savePrefs();
+  ob.classList.add('fd');
+  setTimeout(function(){
+    ob.classList.add('hd');ap.classList.add('on');
+    applyAllSettings();loadGames();
+  },600);
+});
+
+// Onboarding button groups
+[obDt,obAc].forEach(function(grp){
+  grp.querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      grp.querySelectorAll('button').forEach(function(b){b.classList.remove('on');});
+      btn.classList.add('on');
+    });
+  });
+});
+obSm.addEventListener('click',function(){obSm.classList.toggle('on');});
+
+// ── APPLY ALL SETTINGS ───────────────────────────────────────────
+function applyAllSettings(){
+  // Name
+  welcomeName.textContent=S.name;
+  avLetter.textContent=S.name.charAt(0).toUpperCase()||'?';
+  sName.value=S.name;
+
+  // Density
+  applyDensity(S.density);
+
+  // Accent
+  applyAccent(S.accent);
+
+  // Background
+  applyBackground(S.bg||'void');
+
+  // Animations
+  document.body.classList.toggle('no-anim',!S.anim);
+  togAnim.classList.toggle('on',S.anim);
+
+  // Category labels
+  document.body.classList.toggle('show-cats',S.cats);
+  togCats.classList.toggle('on',S.cats);
+
+  // Play counter
+  togPlays.classList.toggle('on',S.plays);
+
+  // Gameplay
+  togConfirm.classList.toggle('on',S.confirm);
+  togKeepp.classList.toggle('on',S.keepbg);
+  togAutolaunch.classList.toggle('on',S.autolaunch);
+
+  // Sound
+  togSound.classList.toggle('on',S.sound);
+  sVol.value=S.vol||30;
+
+  // Sort
+  sSort.value=S.sort||'default';
+
+  // Stealth
+  togStealth.classList.toggle('on',S.stealth);
+  applyStealthMeta(S.stealth);
+
+  // Auto cloak toggles
+  togAtb.classList.toggle('on',S.atb);
+  togAml.classList.toggle('on',S.aml);
+  togGm.classList.toggle('on',S.gm);
+
+  // Panic key
+  sPanickey.value=S.panickey||'Backquote';
+
+  // Tab title
+  sTabtitle.value=S.tabtitle||'';
+
+  // Font size
+  applyFontSize(S.fontsize||'medium');
+
+  // Cloak
+  buildCloakList();
+  applyCloak(S.cloak||'docs');
+
+  // Density buttons
+  setBtnGroup(sDensity,S.density);
+  setBtnGroup(sAccent,S.accent);
+  setBtnGroup(sFontsize,S.fontsize||'medium');
+
+  // Build bg grid
+  buildBgGrid();
+
+  // MOTD
+  var motd=localStorage.getItem('gv_motd');
+  if(motd){motdBar.textContent=motd;motdBar.classList.add('on');}
+
+  // Favorites button state
+  favFilterBtn.classList.toggle('active',SHOW_FAVS);
+}
+
+function applyDensity(v){
+  S.density=v;
+  document.body.classList.remove('density-compact','density-cinematic','density-xl');
+  document.body.classList.add('density-'+(v||'cinematic'));
+  setBtnGroup(sDensity,v);
+}
+
+function applyAccent(v){
+  S.accent=v;
+  document.body.classList.toggle('or',v==='orange');
+  setBtnGroup(sAccent,v);
+}
+
+function applyBackground(id){
+  S.bg=id;
+  var bg=BACKGROUNDS.find(function(b){return b.id===id;})||BACKGROUNDS[0];
+  document.body.className=document.body.className.replace(/\bbg-\S+/g,'').trim();
+  bgLayer.innerHTML='';
+  matrixCanvas.style.opacity='0';
+  if(bg.img){
+    bgLayer.style.background='';
+    var img=document.createElement('img');img.src=bg.img;img.alt='';bgLayer.appendChild(img);
+  }else if(bg.css){
+    bgLayer.style.background=bg.bg||'';
+  }
+  if(id==='matrix')startMatrixRain();
+  // Update bg grid
+  document.querySelectorAll('.bg-swatch').forEach(function(sw){
+    sw.classList.toggle('on',sw.getAttribute('data-bg')===id);
+  });
+}
+
+function applyFontSize(v){
+  S.fontsize=v;
+  document.body.classList.remove('fs-small','fs-medium','fs-large');
+  if(v!=='medium')document.body.classList.add('fs-'+v);
+  setBtnGroup(sFontsize,v);
+}
+
+function applyStealthMeta(on){
+  S.stealth=on;
+  var desc=document.getElementById('metaDesc');
+  var keys=document.getElementById('metaKeywords');
+  if(on){
+    if(desc)desc.content='EduCore - Comprehensive educational resource portal for K-12 students. Mathematics, science, language arts.';
+    if(keys)keys.content='educational resources, student portal, mathematics practice, reading comprehension, science curriculum, homework help';
+  }else{
+    if(desc)desc.content='GameVault - Play games instantly';
+    if(keys)keys.content='';
+  }
+}
+
+function applyCloak(id){
+  S.cloak=id;
+  var c=CLOAKS.find(function(x){return x.id===id;})||CLOAKS[0];
+  if(S.tabtitle){document.title=S.tabtitle;}else{document.title=c.title;}
+  var fav=document.getElementById('favicon');
+  if(fav)fav.href=c.favicon;
+}
+
+// ── SETTINGS PANEL ───────────────────────────────────────────────
+settingsBtn.addEventListener('click',function(){sp.classList.add('on');backdrop.classList.add('on');});
+spClose.addEventListener('click',closeSettings);
+backdrop.addEventListener('click',closeSettings);
+function closeSettings(){sp.classList.remove('on');backdrop.classList.remove('on');}
+
+// Toggle helpers
+function mkToggle(el,key,callback){
+  if(!el)return;
+  el.addEventListener('click',function(){
+    el.classList.toggle('on');
+    S[key]=el.classList.contains('on');
+    savePrefs();
+    if(callback)callback(S[key]);
+  });
+}
+
+mkToggle(togAtb,'atb');
+mkToggle(togAml,'aml');
+mkToggle(togGm,'gm');
+mkToggle(togAnim,'anim',function(v){document.body.classList.toggle('no-anim',!v);});
+mkToggle(togCats,'cats',function(v){document.body.classList.toggle('show-cats',v);});
+mkToggle(togPlays,'plays',function(v){
+  document.querySelectorAll('.gc').forEach(function(c){c.classList.toggle('show-plays',v);});
+});
+mkToggle(togConfirm,'confirm');
+mkToggle(togKeepp,'keepbg');
+mkToggle(togAutolaunch,'autolaunch');
+mkToggle(togSound,'sound');
+mkToggle(togStealth,'stealth',function(v){applyStealthMeta(v);});
+
+sVol.addEventListener('input',function(){S.vol=parseInt(this.value);savePrefs();});
+
+sSort.addEventListener('change',function(){
+  S.sort=this.value;OFFSET=0;gg.innerHTML='';renderBatch();savePrefs();
+});
+
+sPanickey.addEventListener('change',function(){S.panickey=this.value;savePrefs();});
+sTabtitle.addEventListener('input',function(){S.tabtitle=this.value;applyCloak(S.cloak);savePrefs();});
+
+// Density buttons
+sDensity.addEventListener('click',function(e){
+  var btn=e.target.closest('button');if(!btn)return;
+  applyDensity(btn.getAttribute('data-v'));savePrefs();
+});
+
+// Accent buttons
+sAccent.addEventListener('click',function(e){
+  var btn=e.target.closest('button');if(!btn)return;
+  applyAccent(btn.getAttribute('data-v'));savePrefs();
+});
+
+// Font size buttons
+sFontsize.addEventListener('click',function(e){
+  var btn=e.target.closest('button');if(!btn)return;
+  applyFontSize(btn.getAttribute('data-v'));savePrefs();
+});
+
+// Name save
+sNameSave.addEventListener('click',function(){
+  var n=sName.value.trim();
+  if(!n)return;
+  S.name=n;welcomeName.textContent=n;avLetter.textContent=n.charAt(0).toUpperCase();
+  savePrefs();showToast('Name updated ✓');closeSettings();
+});
+
+// Avatar click
+av.addEventListener('click',function(){
+  var n=prompt('Enter your name:',S.name);
+  if(n&&n.trim()){S.name=n.trim();welcomeName.textContent=S.name;avLetter.textContent=S.name.charAt(0).toUpperCase();sName.value=S.name;savePrefs();showToast('Name updated ✓');}
+});
+
+// Export / Import / Reset
+sExport.addEventListener('click',function(){
+  var data={prefs:S,favs:FAVORITES,plays:PLAY_COUNTS,last:LAST_PLAYED};
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gamevault-settings.json';a.click();
+  showToast('Settings exported');
+});
+sImport.addEventListener('click',function(){sImportFile.click();});
+sImportFile.addEventListener('change',function(e){
+  var file=e.target.files[0];if(!file)return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    try{
+      var d=JSON.parse(ev.target.result);
+      if(d.prefs){Object.keys(d.prefs).forEach(function(k){if(k in S)S[k]=d.prefs[k];});}
+      if(d.favs)FAVORITES=d.favs;
+      if(d.plays)PLAY_COUNTS=d.plays;
+      if(d.last)LAST_PLAYED=d.last;
+      savePrefs();saveFavs();savePlays();
+      showToast('Settings imported! Reloading...');
+      setTimeout(function(){location.reload();},1200);
+    }catch(ex){showToast('Invalid file');}
+  };
+  r.readAsText(file);
+});
+sReset.addEventListener('click',function(){
+  if(!confirm('Reset all settings to default?'))return;
+  localStorage.clear();
+  showToast('Reset complete. Reloading...');
+  setTimeout(function(){location.reload();},1200);
+});
+sClearProgress.addEventListener('click',function(){
+  if(!confirm('Clear all game progress?'))return;
+  PLAY_COUNTS={};LAST_PLAYED={};savePlays();saveLastPlayed();showToast('Progress cleared');
+});
+
+// ── CLOAK LIST ───────────────────────────────────────────────────
+function buildCloakList(){
+  var h='';
+  CLOAKS.forEach(function(c){
+    h+='<button class="cloak-item'+(S.cloak===c.id?' on':'')+'" data-id="'+c.id+'">'
+      +'<div class="ci-ico">'+c.icon+'</div>'
+      +'<div class="ci-info"><strong>'+c.name+'</strong><span>'+c.desc+'</span></div>'
+      +'<div class="ci-ck">✓</div>'
+      +'</button>';
+  });
+  cloakList.innerHTML=h;
+  cloakList.querySelectorAll('.cloak-item').forEach(function(el){
+    el.addEventListener('click',function(){
+      cloakList.querySelectorAll('.cloak-item').forEach(function(x){x.classList.remove('on');});
+      el.classList.add('on');
+      applyCloak(el.getAttribute('data-id'));savePrefs();
+    });
+  });
+}
+
+// ── BACKGROUND GRID ──────────────────────────────────────────────
+function buildBgGrid(){
+  var h='';
+  BACKGROUNDS.forEach(function(bg){
+    h+='<div class="bg-swatch'+(S.bg===bg.id?' on':'')+'" data-bg="'+bg.id+'" title="'+bg.label+'">';
+    if(bg.img){
+      h+='<img src="'+bg.img+'" alt="'+bg.label+'" loading="lazy">';
+    }else{
+      h+='<div class="bg-css" style="background:'+bg.bg+'"></div>';
+    }
+    h+='<div class="bg-label">'+bg.label+'</div>';
+    h+='</div>';
+  });
+  bgGrid.innerHTML=h;
+  bgGrid.querySelectorAll('.bg-swatch').forEach(function(sw){
+    sw.addEventListener('click',function(){
+      applyBackground(sw.getAttribute('data-bg'));savePrefs();
+    });
+  });
+}
+
+// ── MATRIX RAIN ──────────────────────────────────────────────────
+var matrixRunning=false;
+function startMatrixRain(){
+  if(matrixRunning)return;matrixRunning=true;
+  matrixCanvas.style.opacity='0.25';
+  var ctx=matrixCanvas.getContext('2d');
+  var resize=function(){matrixCanvas.width=window.innerWidth;matrixCanvas.height=window.innerHeight;};
+  resize();window.addEventListener('resize',resize);
+  var cols=Math.floor(window.innerWidth/14);
+  var drops=[];for(var i=0;i<cols;i++)drops[i]=Math.random()*matrixCanvas.height/14;
+  var chars='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+  function draw(){
+    if(!document.body.classList.contains('bg-matrix')&&S.bg!=='matrix'){matrixRunning=false;matrixCanvas.style.opacity='0';return;}
+    ctx.fillStyle='rgba(7,7,8,0.05)';ctx.fillRect(0,0,matrixCanvas.width,matrixCanvas.height);
+    ctx.fillStyle='#39FF14';ctx.font='13px monospace';
+    for(var i=0;i<drops.length;i++){
+      var c=chars[Math.floor(Math.random()*chars.length)];
+      ctx.fillText(c,i*14,drops[i]*14);
+      if(drops[i]*14>matrixCanvas.height&&Math.random()>0.975)drops[i]=0;
+      drops[i]++;
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+}
+
+// ── BTN GROUP HELPER ─────────────────────────────────────────────
+function setBtnGroup(grp,val){
+  if(!grp)return;
+  grp.querySelectorAll('button').forEach(function(b){
+    b.classList.toggle('on',b.getAttribute('data-v')===val);
+  });
+}
+
+// ── GET GAME ICON ────────────────────────────────────────────────
+function getGameIcon(game){
+  // 1. Try title match in ICON_MAP
+  var key=(game.title||'').toLowerCase().trim();
+  if(ICON_MAP[key])return{type:'url',url:ICON_MAP[key]};
+
+  // 2. Try partial match
+  var keys=Object.keys(ICON_MAP);
+  for(var i=0;i<keys.length;i++){
+    if(key.indexOf(keys[i])>-1||keys[i].indexOf(key)>-1){
+      if(key.length>2&&keys[i].length>2)return{type:'url',url:ICON_MAP[keys[i]]};
+    }
+  }
+
+  // 3. Category emoji
+  return{type:'emoji',emoji:getCatEmoji(game.category)};
+}
+
+// ── LOAD GAMES ───────────────────────────────────────────────────
+function loadGames(){
+  gg.style.display='none';ld.style.display='flex';
+
+  var timeout=setTimeout(function(){
+    ld.innerHTML='<p style="color:#ef4444;font-size:12px">⚠️ Server not responding</p><button onclick="location.reload()" style="margin-top:8px;padding:7px 18px;border-radius:8px;border:1px solid #333;background:#111;color:#fff;cursor:pointer;font-size:11px">Retry</button>';
+  },12000);
+
+  function onGames(data){
+    clearTimeout(timeout);
+    if(!data||!data.length){
+      ld.innerHTML='<p style="color:#ef4444;font-size:12px">⚠️ No games loaded</p>';return;
+    }
+    G=data;
+    gcBadge.textContent=G.length;
+    ld.style.display='none';gg.style.display='grid';
+    buildFilters();
+    OFFSET=0;renderBatch();
+
+    if(S.autolaunch){
+      var lastId=Object.keys(LAST_PLAYED).sort(function(a,b){return(LAST_PLAYED[b]||0)-(LAST_PLAYED[a]||0);})[0];
+      if(lastId){var lg=G.find(function(x){return x.id===lastId;});if(lg)showToast('Last played: '+lg.title);}
+    }
+    admLog('Games loaded: '+G.length);
+  }
+
+  function onError(){
+    clearTimeout(timeout);
+    fetch('/api/games').then(function(r){return r.json();}).then(function(d){
+      if(d&&d.length){onGames(d);}else{showFallback();}
+    }).catch(showFallback);
+  }
+
+  function showFallback(){
+    ld.innerHTML='<p style="color:#ef4444;font-size:12px">⚠️ Cannot load games. Is the server running?</p><button onclick="location.reload()" style="margin-top:8px;padding:7px 18px;border-radius:8px;border:1px solid #333;background:#111;color:#fff;cursor:pointer;font-size:11px">Retry</button>';
+  }
+
+  fetch('/api/games').then(function(r){
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}).then(onGames).catch(onError);
+}
+
+// ── BUILD FILTERS ────────────────────────────────────────────────
+function buildFilters(){
+  var cats={};
+  G.forEach(function(g){var c=g.category||'Other';if(!cats[c])cats[c]=0;cats[c]++;});
+  var sorted=Object.keys(cats).sort(function(a,b){return cats[b]-cats[a];});
+  var h='<button class="filt on" data-cat="">All <span class="fc">'+G.length+'</span></button>';
+  sorted.slice(0,28).forEach(function(cat){
+    h+='<button class="filt" data-cat="'+esc(cat)+'">'+getCatEmoji(cat)+' '+esc(cat)+' <span class="fc">'+cats[cat]+'</span></button>';
+  });
+  fbWrap.innerHTML=h;
+  fbWrap.querySelectorAll('.filt').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      fbWrap.querySelectorAll('.filt').forEach(function(x){x.classList.remove('on');});
+      btn.classList.add('on');
+      ACTIVE_CAT=btn.getAttribute('data-cat')||null;
+      SHOW_FAVS=false;favFilterBtn.classList.remove('active');
+      OFFSET=0;gg.innerHTML='';renderBatch();
+      playBeep(660,0.06);
+    });
+  });
+}
+
+// ── FILTER + SORT GAMES ──────────────────────────────────────────
+function getFilteredGames(){
+  // Owner-only mode: only admin can see games
+  if(localStorage.getItem('gv_owner_only')&&!ADMIN_UNLOCKED)return [];
+
+  var result=G.filter(function(g){
+    if(DISABLED_GAMES[g.id])return false;
+    if(SHOW_FAVS&&!FAVORITES[g.id])return false;
+    if(ACTIVE_CAT&&g.category!==ACTIVE_CAT)return false;
+    if(SEARCH&&g.title.toLowerCase().indexOf(SEARCH)===-1)return false;
+    return true;
+  });
+
+  var sort=S.sort||'default';
+  if(sort==='az')result.sort(function(a,b){return a.title.localeCompare(b.title);});
+  else if(sort==='za')result.sort(function(a,b){return b.title.localeCompare(a.title);});
+  else if(sort==='plays')result.sort(function(a,b){return(PLAY_COUNTS[b.id]||0)-(PLAY_COUNTS[a.id]||0);});
+  else if(sort==='recent')result.sort(function(a,b){return(LAST_PLAYED[b.id]||0)-(LAST_PLAYED[a.id]||0);});
+
+  return result;
+}
+
+// ── RENDER BATCH ─────────────────────────────────────────────────
+function renderBatch(){
+  var filtered=getFilteredGames();
+  if(!filtered.length){
+    if(localStorage.getItem('gv_owner_only')&&!ADMIN_UNLOCKED){
+      nr.innerHTML='<div style="text-align:center;padding:40px 20px;color:#555"><div style="font-size:48px;margin-bottom:12px">👑</div><h3 style="color:#94a3b8;font-size:16px;font-weight:700;margin-bottom:6px">Owner Only Mode</h3><p style="font-size:12px;color:#555">Access restricted by the administrator.</p></div>';
+    }else{
+      nr.innerHTML='<svg style="width:28px;height:28px;opacity:0.35" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="1.5"/></svg><p style="color:#444;font-size:12px">No games found.</p>';
+    }
+    nr.classList.add('show');return;
+  }
+  nr.classList.remove('show');
+
+  var end=Math.min(OFFSET+BATCH,filtered.length);
+  var frag=document.createDocumentFragment();
+
+  for(var i=OFFSET;i<end;i++){
+    var g=filtered[i];
+    var card=makeCard(g);
+    frag.appendChild(card);
+  }
+  gg.appendChild(frag);
+  OFFSET=end;
+  // Re-observe sentinel to trigger next batch if still in viewport
+  if(typeof io!=='undefined'){io.unobserve(sentinel);io.observe(sentinel);}
+}
+
+function makeCard(g){
+  var card=document.createElement('div');
+  card.className='gc'+(FAVORITES[g.id]?' fav':'')+(S.plays?' show-plays':'');
+  card.setAttribute('data-id',g.id);
+
+  var catColors=getCatColors(g.category);
+  var grad='linear-gradient(135deg,'+catColors[0]+','+catColors[1]+')';
+  var catEmoji=getCatEmoji(g.category);
+  var iconInfo=getGameIcon(g);
+  var thumbSrc='thumbs/'+g.id+'.jpg';
+  var plays=PLAY_COUNTS[g.id]||0;
+
+  // Fav button
+  var favBtn='<button class="fav-btn" title="Favorite">'+(FAVORITES[g.id]?'❤️':'🤍')+'</button>';
+
+  // Play badge
+  var playBadge=plays?'<div class="play-badge">▶ '+plays+'</div>':'<div class="play-badge">▶ 0</div>';
+
+  // Fallback content
+  var fallbackContent='';
+  if(iconInfo.type==='url'){
+    fallbackContent='<img src="'+iconInfo.url+'" alt="" style="width:32px;height:32px;border-radius:6px;object-fit:contain;image-rendering:auto" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'">'
+      +'<span class="f-ico" style="display:none">'+catEmoji+'</span>';
+  }else{
+    fallbackContent='<span class="f-ico">'+catEmoji+'</span>';
+  }
+
+  card.innerHTML=
+    '<div class="thumb" style="background:'+grad+'">'+
+      '<img src="'+makeCardSvg(g.title,g.category)+'" alt="'+esc(g.title)+'" loading="lazy" crossorigin="anonymous">'+
+      '<div class="fallback" style="background:'+grad+';display:none">'+
+        fallbackContent+
+        '<span class="f-txt">'+esc(g.title)+'</span>'+
+      '</div>'+
+    '</div>'+
+    '<div class="info">'+
+      '<div class="cat"><em><span class="cat-label">'+esc(g.category||'')+'</span></em></div>'+
+    '</div>'+
+    favBtn+playBadge;
+
+  // Game click
+  card.addEventListener('click',function(e){
+    if(e.target.classList.contains('fav-btn')||e.target.closest('.fav-btn'))return;
+    launchGame(g);
+  });
+
+  // Fav button click
+  var fb=card.querySelector('.fav-btn');
+  fb.addEventListener('click',function(e){
+    e.stopPropagation();
+    FAVORITES[g.id]=!FAVORITES[g.id];
+    fb.textContent=FAVORITES[g.id]?'❤️':'🤍';
+    card.classList.toggle('fav',!!FAVORITES[g.id]);
+    saveFavs();
+    showToast(FAVORITES[g.id]?'Added to favourites ❤️':'Removed from favourites');
+  });
+
+  return card;
+}
+
+// Thumbnail error handler (global)
+window.handleThumbError=function(img,title,cat){
+  // Try SVG generated thumbnail as intermediate
+  var svgUrl=makeCardSvg(title,cat);
+  img.src=svgUrl;
+  img.onerror=function(){
+    // Final fallback: show fallback div
+    img.style.display='none';
+    var fb=img.parentNode.querySelector('.fallback');
+    if(fb)fb.style.display='flex';
+  };
+};
+
+function makeCardSvg(title,cat){
+  var co=getCatColors(cat);
+  var em=getCatEmoji(cat);
+  var cleanTitle=(title||'').trim();
+  var displayTitle=cleanTitle.length > 22 ? cleanTitle.substring(0,20)+'..' : cleanTitle;
+  var initials=cleanTitle.split(/\s+/).map(function(w){return w.charAt(0);}).join('').substring(0,2).toUpperCase();
+  if(!initials)initials='?';
+
+  var hash=0;
+  for(var i=0;i<cleanTitle.length;i++){hash=((hash<<5)-hash)+cleanTitle.charCodeAt(i);hash|=0;}
+  var patternId='p_'+Math.abs(hash);
+
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240">'
+    +'<defs>'
+    +'<linearGradient id="g_'+patternId+'" x1="0%" y1="0%" x2="100%" y2="100%">'
+    +'<stop offset="0%" stop-color="'+co[0]+'"/>'
+    +'<stop offset="100%" stop-color="'+co[1]+'"/>'
+    +'</linearGradient>'
+    +'<radialGradient id="r_'+patternId+'" cx="50%" cy="50%" r="70%">'
+    +'<stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>'
+    +'<stop offset="100%" stop-color="rgba(0,0,0,0.7)"/>'
+    +'</radialGradient>'
+    +'<filter id="f_'+patternId+'">'
+    +'<feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,0.5)"/>'
+    +'</filter>'
+    +'</defs>'
+    +'<rect width="180" height="240" fill="url(#g_'+patternId+')"/>'
+    +'<rect width="180" height="240" fill="url(#r_'+patternId+')"/>'
+    +'<g opacity="0.12">'
+    +'<path d="M0,30 L180,30 M0,60 L180,60 M0,90 L180,90 M0,120 L180,120 M0,150 L180,150 M0,180 L180,180 M0,210 L180,210" stroke="#fff" stroke-width="1"/>'
+    +'<path d="M30,0 L30,240 M60,0 L60,240 M90,0 L90,240 M120,0 L120,240 M150,0 L150,240" stroke="#fff" stroke-width="1"/>'
+    +'</g>'
+    +'<g filter="url(#f_'+patternId+')" transform="translate(90,95)">'
+    +'<circle r="36" fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>'
+    +'<text y="8" text-anchor="middle" font-family="System-UI, sans-serif" font-size="24" font-weight="900" fill="#fff" letter-spacing="1">'+initials+'</text>'
+    +'</g>'
+    +'<g filter="url(#f_'+patternId+')" transform="translate(90,165)">'
+    +'<circle r="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>'
+    +'<text y="6" text-anchor="middle" font-size="16">'+em+'</text>'
+    +'</g>'
+    +'<rect x="10" y="210" width="160" height="22" rx="6" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>'
+    +'<text x="90" y="225" text-anchor="middle" font-family="System-UI, sans-serif" font-size="9" font-weight="800" fill="#fff" opacity="0.95" letter-spacing="0.5">'+displayTitle.toUpperCase()+'</text>'
+    +'<rect x="8" y="8" width="164" height="224" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" rx="8"/>'
+    +'</svg>';
+  return 'data:image/svg+xml,'+encodeURIComponent(svg);
+}
+
+function getCatColors(cat){
+  var map={
+    '2 player':['#e17055','#d63031'],'fighting':['#c0392b','#922b21'],
+    'horror':['#2d3436','#4a4f52'],'mario':['#e74c3c','#c0392b'],
+    'minecraft':['#27ae60','#1e8449'],'other':['#6c5ce7','#5a4bd1'],
+    'platformer':['#00cec9','#00a8a3'],'pokemon':['#e74c3c','#c0392b'],
+    'puzzle':['#6c5ce7','#5a4bd1'],'racing':['#ff8c00','#d47200'],
+    'rpg':['#fdcb6e','#e17055'],'shooter':['#e17055','#d35400'],
+    'simulation':['#0984e3','#074fa3'],'sonic':['#3498db','#2e86c1'],
+    'sports':['#00b894','#00a381'],'strategy':['#00b894','#009473'],
+    'zelda':['#f1c40f','#d4ac0d'],'idle':['#a29bfe','#6c5ce7'],
+    'arcade':['#fd79a8','#e84393'],'adventure':['#55efc4','#00b894'],
+    'casual':['#74b9ff','#0984e3'],'multiplayer':['#fdcb6e','#e17055'],
+    'driving':['#ff8c00','#ff6600'],'io':['#00cec9','#0984e3'],
+    'battle royale':['#e17055','#d63031'],'card':['#a29bfe','#6c5ce7'],
+    'music':['#fd79a8','#e84393']
+  };
+  var key=(cat||'other').toLowerCase();
+  return map[key]||['#6c5ce7','#5a4bd1'];
+}
+
+// ── INFINITE SCROLL ──────────────────────────────────────────────
+var sentinel=document.createElement('div');sentinel.style.height='1px';
+gg.after?gg.after(sentinel):document.body.appendChild(sentinel);
+var io=new IntersectionObserver(function(entries){
+  if(entries[0].isIntersecting)renderBatch();
+},{rootMargin:'500px'});
+io.observe(sentinel);
+
+// ── SEARCH ───────────────────────────────────────────────────────
+var searchTimer=null;
+searchInp.addEventListener('input',function(){
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(function(){
+    SEARCH=searchInp.value.toLowerCase().trim();
+    OFFSET=0;gg.innerHTML='';renderBatch();
+  },150);
+});
+
+// ── FAVORITES FILTER ─────────────────────────────────────────────
+favFilterBtn.addEventListener('click',function(){
+  SHOW_FAVS=!SHOW_FAVS;
+  favFilterBtn.classList.toggle('active',SHOW_FAVS);
+  fbWrap.querySelectorAll('.filt').forEach(function(f){f.classList.remove('on');});
+  if(!SHOW_FAVS)fbWrap.querySelector('[data-cat=""]')?.classList.add('on');
+  OFFSET=0;gg.innerHTML='';renderBatch();
+});
+
+// ── LAUNCH GAME ──────────────────────────────────────────────────
+function launchGame(game){
+  if(BANNED_USERS[S.name]){showToast('⛔ Your account is restricted');return;}
+  if(PAUSED_USERS[S.name]){showToast('⏸ Your account is paused');return;}
+
+  CG=game;
+  gameTitle.textContent='Now Playing: '+game.title;
+  gameCat.textContent=game.category||'Game';
+  gameOverlay.classList.add('on');
+
+  // Record play
+  PLAY_COUNTS[game.id]=(PLAY_COUNTS[game.id]||0)+1;
+  LAST_PLAYED[game.id]=Date.now();
+  savePlays();saveLastPlayed();
+
+  // Update play badge on card
+  var card=gg.querySelector('[data-id="'+game.id+'"] .play-badge');
+  if(card)card.textContent='▶ '+PLAY_COUNTS[game.id];
+
+  var url=game.gameURL||game.url||'';
+  console.log('Launching game:', game.title, 'URL:', url);
+  if(!url){showToast('Error: No game URL'); return;}
+
+  // If it's a local game path (/games/...) serve directly — no proxy needed
+  // If it's an external /api/raw?url=... keep as-is
+  // If it's a bare external http URL, wrap in proxy
+  if(url.startsWith('/games/')){
+    // Local game — serve directly, no modifications
+  } else if(url.startsWith('http://') || url.startsWith('https://')){
+    // Bare external URL — route through proxy to bypass school blocks
+    url='/api/raw?url='+encodeURIComponent(url);
+  }
+  // /api/raw?url=... and /api/proxy/... pass through unchanged
+
+  gameFrame.src=url;
+  // Debug: log iframe events
+  gameFrame.onerror=function(){console.error('Game iframe error loading:', url);};
+  gameFrame.onload=function(){console.log('Game iframe loaded:', game.title, gameFrame.contentDocument?.title);};
+  admLog('Game launched: '+game.title);
+  playBeep(880,0.08);
+
+  // Focus the game iframe to ensure inputs work
+  setTimeout(function(){ gameFrame.focus(); }, 1000);
+
+  // Session timer
+  if(S.sessionTime&&parseInt(S.sessionTime)>0){
+    clearTimeout(SESSION_TIMER);
+    SESSION_TIMER=setTimeout(function(){
+      closeGame();showToast('⏱ Session time limit reached');
+    },parseInt(S.sessionTime)*60000);
+  }
+}
+
+function closeGame(){
+  if(S.confirm&&!confirm('Close this game?'))return;
+  gameOverlay.classList.remove('on');
+  if(!S.keepbg)gameFrame.src='';
+  CG=null;
+  clearTimeout(SESSION_TIMER);
+}
+
+btnClose.addEventListener('click',closeGame);
+
+btnStandalone.addEventListener('click',function(){
+  if(!CG)return;
+  var url=CG.gameURL||CG.url||'';
+  if(!url){showToast('Error: No URL for standalone');return;}
+  // Use link click to avoid popup blockers
+  var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';
+  a.style.display='none';document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);},200);
+  showToast('Opened in new tab');
+});
+
+btnDownload.addEventListener('click',function(){
+  if(!CG)return;
+  var url=CG.gameURL||CG.url||'';
+  var q=url.indexOf('?url=');
+  if(q>=0){try{url=decodeURIComponent(url.substring(q+5));}catch(e){}}
+  if(url.startsWith('/games/')){
+    // Local game — open in new tab (can't download local HTML easily)
+    window.open(url,'_blank');showToast('Opened game in new tab');return;
+  }
+  showToast('Downloading '+CG.title+'...');
+  var a=document.createElement('a');a.href='/api/download?url='+encodeURIComponent(url);
+  a.download=CG.id+'.html';a.style.display='none';document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);},500);
+});
+
+
+btnFullscreen.addEventListener('click',function(){
+  var el=gameFrame;
+  if(el.requestFullscreen)el.requestFullscreen();
+  else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+  else if(el.mozRequestFullScreen)el.mozRequestFullScreen();
+});
+
+// ── KEYBOARD SHORTCUTS ───────────────────────────────────────────
+var adminComboState={a:false,bt:false,m:false};
+var adminComboTimer=null;
+
+document.addEventListener('keydown',function(e){
+  var key=e.key||'';
+  var code=e.code||'';
+
+  // Admin combo: A + ` + M within 3 seconds
+  if(key.toLowerCase()==='a'){adminComboState.a=true;startAdminComboTimer();}
+  if(key==='`'){adminComboState.bt=true;startAdminComboTimer();}
+  if(key.toLowerCase()==='m'){adminComboState.m=true;checkAdminCombo();}
+
+  // Guard mode (backtick)
+  if((key==='`')&&S.gm&&!e.ctrlKey&&!e.altKey&&!e.metaKey){
+    e.preventDefault();
+    if(gameOverlay.classList.contains('on'))closeGame();
+    var cloaked=document.body.classList.toggle('cloaked-mode');
+    if(cloaked){
+      ap.style.display='none';
+      document.title=CLOAKS.find(function(c){return c.id===S.cloak;})?.title||'Google Docs';
+    }else{
+      ap.style.display='flex';
+      document.title=S.tabtitle||CLOAKS.find(function(c){return c.id===S.cloak;})?.title||'GameVault';
+    }
+    showToast('Guard '+(cloaked?'ACTIVE':'off'));
+    return;
+  }
+
+  // Panic key
+  var pk=sPanickey.value||'Backquote';
+  if((code===pk||key===pk)&&!e.ctrlKey){e.preventDefault();panic();return;}
+
+  // Escape: close overlays
+  if(key==='Escape'){
+    if(adminPanel.classList.contains('on')){/* keep open unless logout */return;}
+    if(adminLogin.classList.contains('on')){adminLogin.classList.remove('on');return;}
+    if(gameOverlay.classList.contains('on')){closeGame();e.preventDefault();return;}
+    if(sp.classList.contains('on')){closeSettings();e.preventDefault();return;}
+    panic();e.preventDefault();
+  }
+});
+
+document.addEventListener('keyup',function(e){
+  var key=e.key||'';
+  if(key.toLowerCase()==='a')adminComboState.a=false;
+  if(key==='`')adminComboState.bt=false;
+  if(key.toLowerCase()==='m')adminComboState.m=false;
+});
+
+function startAdminComboTimer(){
+  clearTimeout(adminComboTimer);
+  adminComboTimer=setTimeout(function(){adminComboState={a:false,bt:false,m:false};},3000);
+}
+
+function checkAdminCombo(){
+  if(adminComboState.a&&adminComboState.bt&&adminComboState.m){
+    adminComboState={a:false,bt:false,m:false};
+    clearTimeout(adminComboTimer);
+    maintOverlay.classList.remove('on');
+    openAdminLogin();
+  }
+}
+
+// Auto-cloak on visibility change
+document.addEventListener('visibilitychange',function(){
+  if(!S.atb)return;
+  if(document.hidden){
+    ap.style.display='none';
+    document.title=CLOAKS.find(function(c){return c.id===S.cloak;})?.title||'Google Docs';
+  }else{
+    ap.style.display='flex';
+    document.title=S.tabtitle||'GameVault';
+  }
+});
+
+// Auto-cloak on mouse leave
+var mouseLeaveTimer=null;
+document.addEventListener('mouseleave',function(){
+  if(!S.aml)return;
+  mouseLeaveTimer=setTimeout(function(){
+    ap.style.display='none';
+    document.title=CLOAKS.find(function(c){return c.id===S.cloak;})?.title||'Google Docs';
+    showToast('Auto-cloaked');
+  },2000);
+});
+document.addEventListener('mouseenter',function(){
+  clearTimeout(mouseLeaveTimer);
+  if(!S.aml)return;
+  if(!document.hidden){ap.style.display='flex';document.title=S.tabtitle||'GameVault';}
+});
+
+// ── PANIC ────────────────────────────────────────────────────────
+function panic(){
+  if(gameOverlay.classList.contains('on'))closeGame();
+  document.title='Google Docs';
+  var fav=document.getElementById('favicon');
+  if(fav)fav.href='https://ssl.gstatic.com/images/branding/product/1x/docs_2020q4_32dp.png';
+  ap.style.display='none';
+  document.body.classList.add('cloaked-mode');
+  showToast('🔒 Panic!');
+}
+
+// ── ESC HTML ─────────────────────────────────────────────────────
+function esc(s){
+  if(!s)return'';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ── ADMIN PANEL ──────────────────────────────────────────────────
+function openAdminLogin(){
+  adminPw.value='';adminErr.textContent='';
+  adminLogin.classList.add('on');
+  setTimeout(function(){adminPw.focus();},100);
+}
+
+adminCancel.addEventListener('click',function(){adminLogin.classList.remove('on');});
+
+adminSubmit.addEventListener('click',function(){doAdminLogin();});
+adminPw.addEventListener('keydown',function(e){if(e.key==='Enter')doAdminLogin();});
+
+function doAdminLogin(){
+  var pw=adminPw.value;
+  var correctPw=localStorage.getItem(ADMIN_PW_KEY)||DEFAULT_ADMIN_PW;
+  if(pw===correctPw){
+    adminLogin.classList.remove('on');
+    adminPanel.classList.add('on');
+    ADMIN_UNLOCKED=true;
+    maintOverlay.classList.remove('on');
+    refreshAdminData();
+    // Re-render games if owner-only mode was blocking
+    if(localStorage.getItem('gv_owner_only')){OFFSET=0;gg.innerHTML='';renderBatch();}
+    admLog('Admin logged in');
+    showToast('🛡️ Admin access granted');
+  }else{
+    adminErr.textContent='Incorrect password';
+    adminPw.value='';
+    setTimeout(function(){adminErr.textContent='';},2000);
+  }
+}
+
+adminLogout.addEventListener('click',function(){
+  adminPanel.classList.remove('on');ADMIN_UNLOCKED=false;showToast('Admin logged out');admLog('Admin logged out');
+});
+
+// Admin tab navigation
+document.querySelectorAll('.adm-nav-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    var tabId=item.getAttribute('data-tab');
+    document.querySelectorAll('.adm-nav-item').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.adm-tab').forEach(function(x){x.classList.remove('on');});
+    item.classList.add('on');
+    var tab=$('tab-'+tabId);if(tab)tab.classList.add('on');
+    refreshAdminTab(tabId);
+  });
+});
+
+function refreshAdminData(){
+  refreshAdminTab('dashboard');
+  // Sync admin toggle states
+  var mt=$('adm-maint-toggle');
+  if(mt)mt.classList.toggle('on',!!localStorage.getItem('gv_maint'));
+  var oo=$('adm-owner-only');
+  if(oo)oo.classList.toggle('on',!!localStorage.getItem('gv_owner_only'));
+}
+
+function refreshAdminTab(tabId){
+  if(tabId==='dashboard')buildDashboard();
+  else if(tabId==='users')buildUsersTab();
+  else if(tabId==='stats')buildStatsTab();
+  else if(tabId==='games-ctrl')buildGamesCtrl();
+  else if(tabId==='logs')buildLogs();
+}
+
+// Dashboard
+function buildDashboard(){
+  var users=getAllUsers();
+  var totalPlays=Object.values(PLAY_COUNTS).reduce(function(a,b){return a+b;},0);
+  var topGame=Object.keys(PLAY_COUNTS).sort(function(a,b){return PLAY_COUNTS[b]-PLAY_COUNTS[a];})[0];
+  var topGameObj=G.find(function(g){return g.id===topGame;});
+  var h='';
+  var stats=[
+    {label:'Total Games',val:G.length,sub:'In catalog'},
+    {label:'Total Users',val:users.length,sub:'Registered'},
+    {label:'Total Plays',val:totalPlays,sub:'All time'},
+    {label:'Banned Users',val:Object.keys(BANNED_USERS).length,sub:'Restricted'},
+    {label:'Top Game',val:topGameObj?topGameObj.title.substring(0,12)+'…':'—',sub:topGame?(PLAY_COUNTS[topGame]||0)+' plays':''},
+    {label:'Disabled Games',val:Object.keys(DISABLED_GAMES).length,sub:'Hidden'}
+  ];
+  stats.forEach(function(s){
+    h+='<div class="stat-card"><div class="sc-label">'+s.label+'</div><div class="sc-val">'+s.val+'</div><div class="sc-sub">'+s.sub+'</div></div>';
+  });
+  $('adm-stats-grid').innerHTML=h;
+}
+
+// Users tab
+function getAllUsers(){
+  var users=[];
+  // Current user
+  users.push({name:S.name,status:BANNED_USERS[S.name]?'banned':PAUSED_USERS[S.name]?'paused':'active',plays:Object.values(PLAY_COUNTS).reduce(function(a,b){return a+b;},0),last:'Now'});
+  // Any stored users
+  try{
+    var extra=JSON.parse(localStorage.getItem('gv_users')||'[]');
+    extra.forEach(function(u){if(u.name!==S.name)users.push(u);});
+  }catch(e){}
+  return users;
+}
+
+function buildUsersTab(){
+  var users=getAllUsers();
+  var tbody=$('adm-users-tbody');
+  var h='';
+  users.forEach(function(u){
+    var badge=u.status==='banned'?'<span class="badge-banned">Banned</span>':u.status==='paused'?'<span class="badge-paused">Paused</span>':'<span class="badge-active">Active</span>';
+    var actions='';
+    if(u.status!=='banned'){actions+='<button class="adm-btn red" onclick="admBanUser(\''+esc(u.name)+'\')">Ban</button> ';}
+    else{actions+='<button class="adm-btn green" onclick="admUnbanUser(\''+esc(u.name)+'\')">Unban</button> ';}
+    if(u.status!=='paused'&&u.status!=='banned'){actions+='<button class="adm-btn yellow" onclick="admPauseUser(\''+esc(u.name)+'\')">Pause</button> ';}
+    else if(u.status==='paused'){actions+='<button class="adm-btn green" onclick="admUnpauseUser(\''+esc(u.name)+'\')">Resume</button> ';}
+    actions+='<button class="adm-btn red" onclick="admClearUser(\''+esc(u.name)+'\')">Clear</button>';
+    h+='<tr><td>'+esc(u.name)+'</td><td>'+badge+'</td><td>'+u.plays+'</td><td>'+u.last+'</td><td>'+actions+'</td></tr>';
+  });
+  tbody.innerHTML=h||'<tr><td colspan="5" style="color:#555;text-align:center">No users yet</td></tr>';
+
+  // Banned list
+  var bannedTbody=$('adm-banned-tbody');
+  var bh='';
+  Object.keys(BANNED_USERS).forEach(function(name){
+    bh+='<tr><td>'+esc(name)+'</td><td>'+esc(BANNED_USERS[name]||'No reason')+'</td>'
+      +'<td><button class="adm-btn green" onclick="admUnbanUser(\''+esc(name)+'\')">Unban</button></td></tr>';
+  });
+  bannedTbody.innerHTML=bh||'<tr><td colspan="3" style="color:#555;text-align:center">No banned users</td></tr>';
+}
+
+// User management
+window.admBanUser=function(name){
+  var reason=prompt('Reason for ban (optional):','');
+  BANNED_USERS[name]=reason||'Admin action';
+  localStorage.setItem('gv_banned',JSON.stringify(BANNED_USERS));
+  admLog('Banned user: '+name);showToast('User banned: '+name);buildUsersTab();
+};
+window.admUnbanUser=function(name){
+  delete BANNED_USERS[name];
+  localStorage.setItem('gv_banned',JSON.stringify(BANNED_USERS));
+  admLog('Unbanned user: '+name);showToast('User unbanned: '+name);buildUsersTab();
+};
+window.admPauseUser=function(name){
+  PAUSED_USERS[name]=true;
+  localStorage.setItem('gv_paused',JSON.stringify(PAUSED_USERS));
+  admLog('Paused user: '+name);showToast('User paused: '+name);buildUsersTab();
+};
+window.admUnpauseUser=function(name){
+  delete PAUSED_USERS[name];
+  localStorage.setItem('gv_paused',JSON.stringify(PAUSED_USERS));
+  admLog('Resumed user: '+name);showToast('User resumed: '+name);buildUsersTab();
+};
+window.admClearUser=function(name){
+  if(!confirm('Clear progress for '+name+'?'))return;
+  // Can only clear our own progress if we are that user
+  if(name===S.name){PLAY_COUNTS={};LAST_PLAYED={};savePlays();saveLastPlayed();}
+  admLog('Cleared data for: '+name);showToast('Data cleared for '+name);buildUsersTab();
+};
+
+$('adm-add-user-btn').addEventListener('click',function(){
+  var name=prompt('Test user name:');if(!name||!name.trim())return;
+  var users=getAllUsers();
+  try{
+    var extra=JSON.parse(localStorage.getItem('gv_users')||'[]');
+    extra.push({name:name.trim(),status:'active',plays:0,last:'Never'});
+    localStorage.setItem('gv_users',JSON.stringify(extra));
+  }catch(e){}
+  admLog('Added test user: '+name);showToast('Test user added');buildUsersTab();
+});
+
+$('adm-clear-banned').addEventListener('click',function(){
+  if(!confirm('Clear all bans?'))return;
+  BANNED_USERS={};localStorage.setItem('gv_banned','{}');
+  admLog('Cleared all bans');showToast('All bans cleared');buildUsersTab();
+});
+
+// Stats tab
+function buildStatsTab(){
+  var sorted=Object.keys(PLAY_COUNTS).sort(function(a,b){return PLAY_COUNTS[b]-PLAY_COUNTS[a];}).slice(0,20);
+  var h='<div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>#</th><th>Game</th><th>Plays</th></tr></thead><tbody>';
+  sorted.forEach(function(id,i){
+    var game=G.find(function(g){return g.id===id;});
+    var name=game?game.title:id;
+    h+='<tr><td>'+(i+1)+'</td><td>'+esc(name)+'</td><td>'+PLAY_COUNTS[id]+'</td></tr>';
+  });
+  h+='</tbody></table></div>';
+  $('adm-top-games').innerHTML=h||'<p style="color:#555;font-size:12px">No plays yet</p>';
+}
+
+$('adm-reset-stats').addEventListener('click',function(){
+  if(!confirm('Reset ALL play statistics?'))return;
+  PLAY_COUNTS={};LAST_PLAYED={};savePlays();saveLastPlayed();
+  admLog('Reset all statistics');showToast('Stats reset');buildStatsTab();
+});
+
+$('adm-export-stats').addEventListener('click',function(){
+  var rows=[['Game ID','Game Title','Play Count']];
+  Object.keys(PLAY_COUNTS).forEach(function(id){
+    var g=G.find(function(x){return x.id===id;});
+    rows.push([id,g?g.title:id,PLAY_COUNTS[id]]);
+  });
+  var csv=rows.map(function(r){return r.join(',');}).join('\n');
+  var blob=new Blob([csv],{type:'text/csv'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gamevault-stats.csv';a.click();
+});
+
+// Games control
+var ADM_GAME_SEARCH='';
+function buildGamesCtrl(){
+  var h='';
+  var q=ADM_GAME_SEARCH.toLowerCase().trim();
+  G.forEach(function(g){
+    if(q&&g.title.toLowerCase().indexOf(q)===-1)return;
+    var dis=DISABLED_GAMES[g.id];
+    h+='<div class="adm-ctrl-row">'
+      +'<div class="adm-ctrl-info"><h5>'+esc(g.title)+'</h5><p>'+esc(g.category||'Other')+'</p></div>'
+      +'<div class="adm-ctrl-action">'
+      +'<button class="adm-btn '+(dis?'green':'red')+'" onclick="admToggleGame(\''+g.id+'\')">'+
+      (dis?'Enable':'Disable')+'</button></div></div>';
+  });
+  if(!h)h='<div style="color:#555;font-size:11px;padding:10px 0;text-align:center">No games matched "'+ADM_GAME_SEARCH+'"</div>';
+  $('adm-games-list').innerHTML=h;
+}
+window.admGameSearch=function(v){ADM_GAME_SEARCH=v;buildGamesCtrl();};
+
+window.admToggleGame=function(id){
+  if(DISABLED_GAMES[id])delete DISABLED_GAMES[id];
+  else DISABLED_GAMES[id]=true;
+  localStorage.setItem('gv_disabled',JSON.stringify(DISABLED_GAMES));
+  admLog((DISABLED_GAMES[id]?'Disabled':'Enabled')+' game: '+id);
+  showToast('Game '+(DISABLED_GAMES[id]?'disabled':'enabled'));
+  buildGamesCtrl();OFFSET=0;gg.innerHTML='';renderBatch();
+};
+
+// Broadcast
+$('adm-set-motd').addEventListener('click',function(){
+  var msg=$('adm-motd-text').value.trim();
+  if(!msg)return;
+  localStorage.setItem('gv_motd',msg);
+  motdBar.textContent=msg;motdBar.classList.add('on');
+  // Broadcast via BroadcastChannel
+  try{new BroadcastChannel('gv_admin').postMessage({type:'motd',msg:msg});}catch(e){}
+  admLog('Set MOTD: '+msg);showToast('MOTD set');
+});
+$('adm-clear-motd').addEventListener('click',function(){
+  localStorage.removeItem('gv_motd');
+  motdBar.classList.remove('on');motdBar.textContent='';
+  admLog('Cleared MOTD');showToast('MOTD cleared');
+});
+$('adm-send-broadcast').addEventListener('click',function(){
+  var msg=$('adm-broadcast-msg').value.trim();if(!msg)return;
+  showToast('📢 '+msg);
+  try{new BroadcastChannel('gv_admin').postMessage({type:'toast',msg:msg});}catch(e){}
+  admLog('Broadcast: '+msg);$('adm-broadcast-msg').value='';
+});
+$('adm-set-countdown').addEventListener('click',function(){
+  var mins=parseInt($('adm-countdown-mins').value)||30;
+  S.sessionTime=mins;savePrefs();
+  showToast('Session timer set: '+mins+' minutes');admLog('Session timer: '+mins+'min');
+});
+$('adm-clear-countdown').addEventListener('click',function(){
+  S.sessionTime=0;savePrefs();clearTimeout(SESSION_TIMER);showToast('Session timer cleared');
+});
+
+// Security tab session time input
+var admSessionTime=$('adm-session-time');
+if(admSessionTime){
+  admSessionTime.addEventListener('input',function(){
+    var v=parseInt(this.value)||0;
+    S.sessionTime=v;
+    if(v>0)showToast('Session time set: '+v+' min');
+    savePrefs();
+  });
+  admSessionTime.value=S.sessionTime||'';
+}
+
+// Security
+$('adm-maint-toggle').addEventListener('click',function(){
+  var tog=$('adm-maint-toggle');tog.classList.toggle('on');
+  if(tog.classList.contains('on')){
+    var msg=prompt('Maintenance message:','Under maintenance. Check back soon.')||'Under maintenance.';
+    localStorage.setItem('gv_maint',msg);
+    $('maint-msg').textContent=msg;
+    admLog('Maintenance ON: '+msg);showToast('Maintenance mode enabled');
+  }else{
+    localStorage.removeItem('gv_maint');
+    admLog('Maintenance OFF');showToast('Maintenance mode disabled');
+  }
+});
+$('adm-force-cloak').addEventListener('click',function(){
+  ap.style.display='none';
+  document.title=CLOAKS.find(function(c){return c.id===S.cloak;})?.title||'Google Docs';
+  try{new BroadcastChannel('gv_admin').postMessage({type:'cloak'});}catch(e){}
+  admLog('Force cloak executed');showToast('Cloaked');
+});
+$('adm-force-panic').addEventListener('click',function(){
+  panic();
+  try{new BroadcastChannel('gv_admin').postMessage({type:'panic'});}catch(e){}
+  admLog('Force panic executed');
+});
+$('adm-force-reload').addEventListener('click',function(){
+  if(!confirm('Reload all clients?'))return;
+  try{new BroadcastChannel('gv_admin').postMessage({type:'reload'});}catch(e){}
+  admLog('Force reload sent');showToast('Reload signal sent');
+});
+
+// Security toggles
+var admAdultFilter=$('adm-adult-filter');
+if(admAdultFilter)admAdultFilter.addEventListener('click',function(){admAdultFilter.classList.toggle('on');admLog('Adult filter toggled');});
+var admViolenceFilter=$('adm-violence-filter');
+if(admViolenceFilter)admViolenceFilter.addEventListener('click',function(){admViolenceFilter.classList.toggle('on');admLog('Violence filter toggled');});
+var admReqName=$('adm-req-name');
+if(admReqName)admReqName.addEventListener('click',function(){admReqName.classList.toggle('on');admLog('Require name toggled');});
+var admOwnerOnly=$('adm-owner-only');
+if(admOwnerOnly){
+  admOwnerOnly.classList.toggle('on',!!localStorage.getItem('gv_owner_only'));
+  admOwnerOnly.addEventListener('click',function(){
+    var on=admOwnerOnly.classList.toggle('on');
+    if(on){localStorage.setItem('gv_owner_only','1');admLog('Owner-only mode ON');showToast('👑 Only admin can see games');}
+    else{localStorage.removeItem('gv_owner_only');admLog('Owner-only mode OFF');showToast('Games visible to all');}
+    OFFSET=0;gg.innerHTML='';renderBatch();
+  });
+}
+
+// Quick action buttons
+$('adm-q-maint').addEventListener('click',function(){$('adm-maint-toggle').click();});
+$('adm-q-broadcast').addEventListener('click',function(){
+  document.querySelectorAll('.adm-nav-item').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.adm-tab').forEach(function(x){x.classList.remove('on');});
+  document.querySelector('[data-tab="broadcast"]').classList.add('on');
+  $('tab-broadcast').classList.add('on');
+});
+$('adm-q-cloak').addEventListener('click',function(){$('adm-force-cloak').click();});
+$('adm-q-reload').addEventListener('click',function(){
+  fetch('/api/games').then(function(r){return r.json();}).then(function(d){if(d&&d.length){G=d;gcBadge.textContent=G.length;OFFSET=0;gg.innerHTML='';buildFilters();renderBatch();showToast('Games refreshed: '+d.length);}}).catch(function(){showToast('Cache refresh failed');});
+});
+$('adm-q-panic').addEventListener('click',function(){$('adm-force-panic').click();});
+$('adm-q-export').addEventListener('click',function(){$('adm-export-all').click();});
+
+// System
+$('adm-clear-cache').addEventListener('click',function(){
+  fetch('/api/games').then(function(r){return r.json();}).then(function(d){
+    if(d&&d.length){G=d;gcBadge.textContent=G.length;OFFSET=0;gg.innerHTML='';buildFilters();renderBatch();showToast('Cache cleared & refreshed');}
+  }).catch(function(){showToast('Failed to refresh');});
+  admLog('Cache cleared');
+});
+$('adm-export-all').addEventListener('click',function(){
+  var data={users:getAllUsers(),plays:PLAY_COUNTS,last:LAST_PLAYED,banned:BANNED_USERS,paused:PAUSED_USERS,disabled:DISABLED_GAMES,logs:ADM_LOGS,prefs:S};
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gamevault-export.json';a.click();
+  admLog('Data exported');showToast('Data exported');
+});
+$('adm-clear-all-progress').addEventListener('click',function(){
+  if(!confirm('Clear ALL user progress?'))return;
+  PLAY_COUNTS={};LAST_PLAYED={};savePlays();saveLastPlayed();
+  admLog('Cleared all progress');showToast('All progress cleared');
+});
+$('adm-factory-reset').addEventListener('click',function(){
+  if(!confirm('⚠️ FACTORY RESET: This will delete ALL data. Are you absolutely sure?'))return;
+  if(!confirm('This cannot be undone. Confirm?'))return;
+  localStorage.clear();admLog('FACTORY RESET');
+  setTimeout(function(){location.reload();},500);
+});
+$('adm-save-pw').addEventListener('click',function(){
+  var newPw=$('adm-new-pw').value;
+  if(!newPw||newPw.length<4){showToast('Password too short');return;}
+  localStorage.setItem(ADMIN_PW_KEY,newPw);
+  $('adm-new-pw').value='';
+  admLog('Admin password changed');showToast('Password changed');
+});
+
+$('adm-global-density').addEventListener('change',function(){
+  var v=this.value;if(!v)return;
+  applyDensity(v);savePrefs();admLog('Global density set: '+v);
+});
+
+// Logs
+function buildLogs(){
+  var logEl=$('adm-log-list');
+  logEl.innerHTML=ADM_LOGS.slice(0,100).map(function(l){return'<div>'+esc(l)+'</div>';}).join('')||'<div style="color:#333">No logs yet</div>';
+}
+$('adm-clear-logs').addEventListener('click',function(){
+  ADM_LOGS=[];localStorage.removeItem('gv_logs');buildLogs();showToast('Logs cleared');
+});
+
+// BroadcastChannel listener
+try{
+  var bc=new BroadcastChannel('gv_admin');
+  bc.addEventListener('message',function(e){
+    var d=e.data||{};
+    if(d.type==='toast')showToast('📢 '+d.msg);
+    if(d.type==='cloak'){ap.style.display='none';}
+    if(d.type==='panic')panic();
+    if(d.type==='reload')location.reload();
+    if(d.type==='motd'){motdBar.textContent=d.msg;motdBar.classList.add('on');}
+  });
+}catch(e){}
+
+// ── STEALTH INIT ─────────────────────────────────────────────────
+applyStealthMeta(true);
+
+})();
+</script>
+</body>
+</html>

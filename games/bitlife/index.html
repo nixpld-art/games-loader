@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>BitLife</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#070708;font-family:'Segoe UI',sans-serif}
+#load{position:fixed;inset:0;background:#070708;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:10;color:#eee;text-align:center;padding:20px}
+#load h2{font-size:22px;font-weight:800;background:linear-gradient(135deg,#6c5ce7,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#load .sp{width:36px;height:36px;border:3px solid #1a1a3a;border-top-color:#6c5ce7;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#load p{color:#555;font-size:12px;max-width:300px;line-height:1.6}
+iframe{width:100%;height:100%;border:none;display:block}
+</style>
+</head>
+<body>
+<div id="load">
+  <div class="sp"></div>
+  <h2>BitLife</h2>
+  <p>Loading game... please wait.</p>
+</div>
+<iframe id="f" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-pointer-lock allow-orientation-lock allow-presentation" allow="autoplay; fullscreen; web-share; accelerometer; gyroscope" style="display:none"></iframe>
+<script>
+var f=document.getElementById('f'),load=document.getElementById('load');
+var saved=localStorage.getItem('gv_progress_bitlife');
+f.onload=function(){load.style.display='none';f.style.display='block';};
+f.onerror=function(){load.innerHTML='<p style="color:#ef4444;font-size:13px">Could not load BitLife. Check connection.</p>';};
+f.src='/api/raw?url=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FGoatTech-42%2FNEBULA-CDN%40main%2Fgames%2Fbitlife.html';
+window.addEventListener('beforeunload',function(){
+  try{localStorage.setItem('gv_progress_bitlife',JSON.stringify({t:Date.now()}));}catch(e){}
+});
+</script>
+</body>
+</html>

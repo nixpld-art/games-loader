@@ -1,0 +1,138 @@
+[
+  {
+    "id": "snake",
+    "title": "Snake",
+    "tags": ["Arcade","Classic"],
+    "thumbnail": "/api/thumb/Snake",
+    "url": "/games/snake/index.html",
+    "source": ""
+  },
+  {
+    "id": "2048",
+    "title": "2048",
+    "tags": ["Puzzle","Strategy"],
+    "thumbnail": "/thumbs/test2048.jpg",
+    "url": "/games/2048/index.html",
+    "source": ""
+  },
+  {
+    "id": "retro-bowl",
+    "title": "Retro Bowl",
+    "tags": ["Sports","Football"],
+    "thumbnail": "/api/thumb/Retro%20Bowl",
+    "url": "/games/retro-bowl/index.html",
+    "source": ""
+  },
+  {
+    "id": "stickman-hook",
+    "title": "Stickman Hook",
+    "tags": ["Action","Platformer"],
+    "thumbnail": "/api/thumb/Stickman%20Hook",
+    "url": "/games/stickman-hook/index.html",
+    "source": ""
+  },
+  {
+    "id": "1v1-lol",
+    "title": "1v1.LOL",
+    "tags": ["Shooter","Multiplayer"],
+    "thumbnail": "/thumbs/1v1lol.jpg",
+    "url": "/games/1v1-lol/index.html",
+    "source": ""
+  },
+  {
+    "id": "baseballbros",
+    "title": "Baseball Bros",
+    "tags": ["Sports","Multiplayer"],
+    "thumbnail": "/api/thumb/Baseball%20Bros",
+    "url": "/games/baseballbros/index.html",
+    "source": ""
+  },
+  {
+    "id": "basket-bros",
+    "title": "Basket Bros",
+    "tags": ["Sports","Multiplayer"],
+    "thumbnail": "/thumbs/basketrandom.jpg",
+    "url": "/games/basket-bros/index.html",
+    "source": ""
+  },
+  {
+    "id": "bitlife",
+    "title": "BitLife",
+    "tags": ["Simulation","Casual"],
+    "thumbnail": "/api/thumb/BitLife",
+    "url": "/games/bitlife/index.html",
+    "source": ""
+  },
+  {
+    "id": "cookie-clicker",
+    "title": "Cookie Clicker",
+    "tags": ["Idle","Casual"],
+    "thumbnail": "/thumbs/cookieclicker.jpg",
+    "url": "/games/cookie-clicker/index.html",
+    "source": ""
+  },
+  {
+    "id": "drive-mad",
+    "title": "Drive Mad",
+    "tags": ["Racing","Physics"],
+    "thumbnail": "/thumbs/drive-mad.jpg",
+    "url": "/games/drive-mad/index.html",
+    "source": ""
+  },
+  {
+    "id": "eggy-car",
+    "title": "Eggy Car",
+    "tags": ["Casual","Physics"],
+    "thumbnail": "/api/thumb/Eggy%20Car",
+    "url": "/games/eggy-car/index.html",
+    "source": ""
+  },
+  {
+    "id": "polytrack",
+    "title": "PolyTrack",
+    "tags": ["Racing","3D"],
+    "thumbnail": "/api/thumb/PolyTrack",
+    "url": "/games/polytrack/index.html",
+    "source": ""
+  },
+  {
+    "id": "run-3",
+    "title": "Run 3",
+    "tags": ["Endless","Platformer"],
+    "thumbnail": "/api/thumb/Run%203",
+    "url": "/games/run-3/index.html",
+    "source": ""
+  },
+  {
+    "id": "smash-karts",
+    "title": "Smash Karts",
+    "tags": ["Racing","Multiplayer"],
+    "thumbnail": "/api/thumb/Smash%20Karts",
+    "url": "/games/smash-karts/index.html",
+    "source": ""
+  },
+  {
+    "id": "subway-surfers",
+    "title": "Subway Surfers",
+    "tags": ["Endless","Platformer"],
+    "thumbnail": "/api/thumb/Subway%20Surfers",
+    "url": "/games/subway-surfers/index.html",
+    "source": ""
+  },
+  {
+    "id": "temple-run-2",
+    "title": "Temple Run 2",
+    "tags": ["Endless","Action"],
+    "thumbnail": "/api/thumb/Temple%20Run%202",
+    "url": "/games/temple-run-2/index.html",
+    "source": ""
+  },
+  {
+    "id": "tunnel-rush",
+    "title": "Tunnel Rush",
+    "tags": ["Arcade","Endless"],
+    "thumbnail": "/api/thumb/Tunnel%20Rush",
+    "url": "/games/tunnel-rush/index.html",
+    "source": ""
+  }
+]

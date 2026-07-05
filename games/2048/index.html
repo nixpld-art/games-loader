@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>2048</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0a1a;color:#eee;font-family:'Segoe UI',sans-serif;touch-action:none;user-select:none}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center}
+#header{text-align:center;padding:8px;width:100%}
+#header h1{font-size:clamp(24px,6vw,36px);background:linear-gradient(135deg,#00ff88,#00cc6a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900}
+#canvas-wrap{position:relative;width:90vmin;max-width:400px;aspect-ratio:1;margin:0 auto}
+#canvas-wrap canvas{width:100%;height:100%;display:block;border-radius:12px}
+#hud{display:flex;gap:8px;justify-content:center;margin-bottom:8px}
+.hud-box{background:rgba(0,0,0,0.5);border:1px solid rgba(0,255,136,0.25);border-radius:8px;padding:4px 12px;text-align:center}
+.hud-box .label{font-size:9px;color:#00ff88;text-transform:uppercase}
+.hud-box .val{font-size:18px;font-weight:700}
+#game-over{position:absolute;inset:0;background:rgba(0,0,0,0.85);border-radius:12px;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10}
+#game-over.show{display:flex}
+#game-over h2{font-size:28px;margin-bottom:8px}
+#game-over .final-score{font-size:32px;font-weight:900;color:#00ff88}
+.btn{margin-top:12px;background:linear-gradient(135deg,#00ff88,#00cc6a);border:none;color:#000;padding:10px 28px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer}
+#supernova-flash{position:fixed;inset:0;pointer-events:none;z-index:999;display:none}
+</style>
+</head>
+<body>
+<div id="header"><h1>2048</h1></div>
+<div id="hud">
+<div class="hud-box"><div class="label">Score</div><div class="val" id="score-val">0</div></div>
+<div class="hud-box"><div class="label">Best</div><div class="val" id="best-val">0</div></div>
+</div>
+<div id="canvas-wrap">
+<canvas id="c"></canvas>
+<div id="game-over">
+<h2>Game Over</h2>
+<div class="final-score" id="final-score">0</div>
+<button class="btn" onclick="location.reload()">Play Again</button>
+</div>
+</div>
+<script src="../game-audio.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
