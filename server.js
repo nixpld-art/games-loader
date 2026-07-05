@@ -175,7 +175,7 @@ app.get('/api/raw', async function(req, res) {
 
     body = body.replace(/((?:src|href|action|data|data-src|data-href|data-main|poster)=")(\/[^"]*)(")/gi, function(m, pre, path, post) {
       if (path.startsWith(proxyPrefix) || path.indexOf('://') > 0) return m;
-      return pre + proxyPrefix + origin + path + post;
+      return pre + proxyPrefix + '/' + origin + path + post;
     });
 
     body = body.replace(/((?:srcset)=")([^"]*)(")/gi, function(m, pre, val, post) {
@@ -183,9 +183,11 @@ app.get('/api/raw', async function(req, res) {
         part = part.trim();
         if (!part) return '';
         var tokens = part.split(/\s+/);
-        if (tokens[0].startsWith(proxyPrefix)) return part;
+          if (tokens[0].startsWith(proxyPrefix) || tokens[0].indexOf('://') > 0) return part;
         if (tokens[0].startsWith('/')) {
-          tokens[0] = proxyPrefix + origin + tokens[0];
+          tokens[0] = proxyPrefix + '/' + origin + tokens[0];
+        } else if (tokens[0].match(/^https?:\/\//)) {
+          tokens[0] = proxyPrefix + '/' + tokens[0];
         }
         return tokens.join(' ');
       }).join(', ');
@@ -207,7 +209,13 @@ app.get('/api/raw', async function(req, res) {
     body = body.replace(/<meta[^>]*http-equiv=["']X-Frame-Options["'][^>]*>/gi, '');
 
     // Strip any source URL references from response body and route them through proxy
-    body = body.replace(/(https?:\/\/(?:hypackellite\.github\.io|cdn\.jsdelivr\.net|raw\.githubusercontent\.com)[^\s"'>]*)/gi, '/api/proxy/$1');
+    body = body.replace(/(?<!\/api\/proxy\/)(https?:\/\/(?:hypackellite\.github\.io|cdn\.jsdelivr\.net|raw\.githubusercontent\.com)[^\s"'>]*)/gi, '/api/proxy/$1');
+    // Additionally, proxy ALL external URLs found in resource-loading attributes (any domain)
+    body = body.replace(/((?:src|href|action|data|data-src|data-href|data-main|poster)=")(https?:\/\/[^"]+)(")/gi, function(m, pre, url, post) {
+      if (url.indexOf('//localhost:') >= 0 || url.indexOf('//127.0.0.1:') >= 0) return m;
+      if (url.indexOf('/api/proxy/') >= 0 || url.indexOf('/api/raw?') >= 0) return m;
+      return pre + proxyPrefix + '/' + url + post;
+    });
 
     res.set('Content-Type', 'text/html; charset=utf-8');
     res.set('Access-Control-Allow-Origin', '*');
@@ -231,10 +239,30 @@ app.get('/api/raw', async function(req, res) {
   }
 });
 
+var HYPACKEL_CACHE_FILE = path.join(__dirname, '.hypackel-cache.json');
+var NEBULA_CACHE_FILE = path.join(__dirname, '.nebula-cache.json');
+
+function loadDiskCache(file) {
+  try {
+    if (fs.existsSync(file)) {
+      var data = JSON.parse(fs.readFileSync(file, 'utf8'));
+      if (data && data.t && Date.now() - data.t < 86400000) return data.v;
+    }
+  } catch (e) {}
+  return null;
+}
+
+function saveDiskCache(file, data) {
+  try { fs.writeFileSync(file, JSON.stringify({ t: Date.now(), v: data })); } catch (e) {}
+}
+
 async function getHypackelFileList() {
   if (hypackelFileList && Date.now() - hypackelFileListAt < FILE_LIST_TTL) {
     return hypackelFileList;
   }
+  // Try disk cache first (survives restarts, 24h TTL)
+  var cached = loadDiskCache(HYPACKEL_CACHE_FILE);
+  if (cached) { hypackelFileList = cached; hypackelFileListAt = Date.now(); return cached; }
   try {
     var res = await axios.get('https://api.github.com/repos/hypackellite/hypackellite.github.io/contents/files', {
       timeout: 15000, headers: GH_HEADERS
@@ -257,9 +285,13 @@ async function getHypackelFileList() {
     }));
     hypackelFileList = validGames;
     hypackelFileListAt = Date.now();
+    saveDiskCache(HYPACKEL_CACHE_FILE, validGames);
     return validGames;
   } catch (err) {
     console.error('Failed to fetch Hypackel file list:', err.message);
+    // Fall back to disk cache even if stale
+    var stale = loadDiskCache(HYPACKEL_CACHE_FILE);
+    if (stale) { hypackelFileList = stale; hypackelFileListAt = Date.now(); return stale; }
     return hypackelFileList || {};
   }
 }
@@ -276,14 +308,16 @@ async function fetchHypackel() {
       var seen = {};
       var games = [];
       (indexRes.data || []).forEach(function(g) {
-      var dir = '';
-      if (g.url) {
-        var parts = g.url.replace(/\/index\.html$/, '').split('/');
-        dir = parts[parts.length - 1] || parts[parts.length - 2] || '';
-      }
-      if (!dir) return;
-      if (seen[dir]) return; seen[dir] = true;
-      if (HYPACKEL_BLOCKLIST[dir]) return;
+        var dir = '';
+        if (g.url) {
+          var parts = g.url.replace(/\/index\.html$/, '').split('/');
+          dir = parts[parts.length - 1] || parts[parts.length - 2] || '';
+        }
+        if (!dir) return;
+        // Skip entries where dir looks like a file (ends with .html) — old format paths won't work
+        if (/\.\w+$/.test(dir)) return;
+        if (seen[dir]) return; seen[dir] = true;
+        if (HYPACKEL_BLOCKLIST[dir]) return;
         var baseId = dir.replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'game-' + games.length;
         if (/^\d+$/.test(baseId)) baseId = 'fnaf' + baseId;
         var gTitle = TITLE_FIX[dir] || g.name || dir;
@@ -292,7 +326,7 @@ async function fetchHypackel() {
           title: gTitle,
           developer: '',
           thumbnail: g.imageSrc ? 'https://hypackellite.github.io' + g.imageSrc : '/api/thumb/' + encodeURIComponent(gTitle),
-          url: '/api/raw?url=' + encodeURIComponent('https://raw.githubusercontent.com/hypackellite/hypackellite.github.io/main' + (g.url || ('/files/' + dir + '/index.html'))),
+          url: '/api/raw?url=' + encodeURIComponent('https://raw.githubusercontent.com/hypackellite/hypackellite.github.io/main/files/' + dir + '/index.html'),
           tags: (g.tags ? g.tags.split(',').map(function(t){ return t.trim(); }).filter(Boolean) : []),
           source: 'hypackel'
         });
@@ -339,6 +373,8 @@ async function getNebulaFileList() {
   if (nebulaFileList && Date.now() - nebulaFileListAt < FILE_LIST_TTL) {
     return nebulaFileList;
   }
+  var cached = loadDiskCache(NEBULA_CACHE_FILE);
+  if (cached) { nebulaFileList = cached; nebulaFileListAt = Date.now(); return cached; }
   try {
     var res = await axios.get('https://api.github.com/repos/GoatTech-42/NEBULA-CDN/contents/games', {
       timeout: 15000, headers: GH_HEADERS
@@ -351,9 +387,12 @@ async function getNebulaFileList() {
     });
     nebulaFileList = set;
     nebulaFileListAt = Date.now();
+    saveDiskCache(NEBULA_CACHE_FILE, set);
     return set;
   } catch (err) {
     console.error('Failed to fetch NEBULA file list:', err.message);
+    var stale = loadDiskCache(NEBULA_CACHE_FILE);
+    if (stale) { nebulaFileList = stale; nebulaFileListAt = Date.now(); return stale; }
     return nebulaFileList || {};
   }
 }
@@ -371,7 +410,8 @@ var NEBULA_BLOCKLIST = {
   'fnfgamebreakerbundle': 1, 'sonicclassiccollection': 1,
   'unknown': 1, 'ai': 1, 'rh': 1, '1': 1,
   'granny22': 1, 'grannycreepy': 1, 'grannynightmare': 1,
-  'funnyshooter22': 1
+  'funnyshooter22': 1,
+  'singlefile': 1
 };
 
 var HYPACKEL_BLOCKLIST = {
